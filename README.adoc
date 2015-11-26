@@ -1,6 +1,6 @@
 = EzTexting API REST client
 
-Java client for Callfire platform API version 2. See link:docs/GettingStarted.adoc[Getting Started]
+Java client for EzTexting platform REST API. See link:docs/GettingStarted.adoc[Getting Started]
  page for setup instructions.
 
 .*Requirements:*
@@ -9,8 +9,7 @@ Java client for Callfire platform API version 2. See link:docs/GettingStarted.ad
 .*Table of contents*
 * link:docs/GettingStarted.adoc[Getting Started]
 * link:docs/api/ApiExamples.adoc[API code examples]
-* link:https://developers.callfire.com/docs.html[REST endpoints documentation]
+* link:https://www.eztexting.com/developers/sms-api-documentation/rest[REST endpoints documentation]
 * Have a question ?
-** link:https://developers.callfire.com/chat.html[Public chat room]
+** link:https://www.eztexting.com/help[EzTexting Help]
 ** link:http://stackoverflow.com/questions/tagged/callfire[Ask on stackoverflow]
-** link:https://answers.callfire.com/hc/en-us[Call Us]
