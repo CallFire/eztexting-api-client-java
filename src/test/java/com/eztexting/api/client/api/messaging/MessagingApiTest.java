@@ -22,7 +22,7 @@ public class MessagingApiTest extends AbstractApiTest {
 
     @Test
     public void send() throws Exception {
-        String expectedJson = getJsonPayload("/messaging/MessagingApi/response/send.json");
+        String expectedJson = getJsonPayload("/messaging/messagingApi/send.json");
         ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(expectedJson);
 
         MmsMessage mms = new MmsMessage();
@@ -34,8 +34,8 @@ public class MessagingApiTest extends AbstractApiTest {
         mms.setMessageType(MessageType.MMS);
         Date now = new Date();
         mms.setStampToSend(now);
-        SendMessageResponse sendMsgResponse = client.messagingApi().send(mms);
-        EzTextingResponse<SendMessageResponse> ezResponse = new EzTextingResponse<>("Success", 201, sendMsgResponse);
+        SendMessageResponse response = client.messagingApi().send(mms);
+        EzTextingResponse<SendMessageResponse> ezResponse = new EzTextingResponse<>("Success", 201, response);
         JSONAssert.assertEquals(expectedJson, jsonConverter.serialize(ezResponse), true);
 
         HttpUriRequest arg = captor.getValue();

@@ -94,7 +94,7 @@ public class RestApiClient {
      * @throws EzTextingClientException     in case error has occurred in client.
      */
     public <T> EzTextingResponse<T> get(String path, Class<T> type) {
-        return get(path, type, Collections.<NameValuePair>emptyList());
+        return get(path, type, null);
     }
 
     /**
@@ -102,7 +102,7 @@ public class RestApiClient {
      *
      * @param path    request path
      * @param type    return entity type
-     * @param request finder request with query parameters
+     * @param request query request
      * @param <T>     return entity type
      * @return pojo mapped from json
      * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
@@ -113,34 +113,11 @@ public class RestApiClient {
      * @throws EzTextingApiException        in case HTTP response code is something different from codes listed above.
      * @throws EzTextingClientException     in case error has occurred in client.
      */
-    public <T> EzTextingResponse<T> get(String path, Class<T> type, Object request) {
-        //      List<NameValuePair> queryParams = buildQueryParams(request);
-        return get(path, type, Collections.<NameValuePair>emptyList());
-    }
-
-    /**
-     * Performs GET request to specified path
-     *
-     * @param path        request path
-     * @param type        return entity type
-     * @param queryParams query parameters
-     * @param <T>         return entity type
-     * @return pojo mapped from json
-     * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
-     * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
-     * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
-     * @throws ResourceNotFoundException    in case HTTP response code is 404 - NOT FOUND, the resource requested does not exist.
-     * @throws InternalServerErrorException in case HTTP response code is 500 - Internal Server Error.
-     * @throws EzTextingApiException        in case HTTP response code is something different from codes listed above.
-     * @throws EzTextingClientException     in case error has occurred in client.
-     */
-    public <T> EzTextingResponse<T> get(String path, Class<T> type, List<NameValuePair> queryParams) {
+    public <T> EzTextingResponse<T> get(String path, Class<T> type, EzTextingModel request) {
         try {
-            String uri = getApiBasePath() + path;
-            LOGGER.debug("GET request to {} with params: {}", uri, queryParams);
-            RequestBuilder requestBuilder = RequestBuilder.get(uri)
-                .addParameters(queryParams.toArray(new NameValuePair[queryParams.size()]));
-
+            String uri = getApiBasePath() + path + '&' + buildTextPayload(request);
+            RequestBuilder requestBuilder = RequestBuilder.get(uri);
+            LOGGER.debug("GET request to {}", uri);
             return doRequest(requestBuilder, type);
         } catch (IOException e) {
             throw new EzTextingClientException(e);

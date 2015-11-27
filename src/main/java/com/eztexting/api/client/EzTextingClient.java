@@ -1,5 +1,6 @@
 package com.eztexting.api.client;
 
+import com.eztexting.api.client.api.groups.GroupsApi;
 import com.eztexting.api.client.auth.RequestParamAuth;
 import com.eztexting.api.client.api.messaging.MessagingApi;
 
@@ -52,8 +53,8 @@ public class EzTextingClient {
 
     private RestApiClient restApiClient;
 
-    // campaigns
     private MessagingApi messagingApi;
+    private GroupsApi groupsApi;
 
     /**
      * Constructs callfire client
@@ -93,6 +94,18 @@ public class EzTextingClient {
             messagingApi = new MessagingApi(restApiClient);
         }
         return messagingApi;
+    }
+
+    /**
+     * Get groups APIs for managing your contact groups
+     *
+     * @return endpoint object
+     */
+    public GroupsApi groupsApi() {
+        if (groupsApi == null) {
+            groupsApi = new GroupsApi(restApiClient);
+        }
+        return groupsApi;
     }
 
     private static void loadConfig() {
