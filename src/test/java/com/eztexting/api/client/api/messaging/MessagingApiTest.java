@@ -89,6 +89,6 @@ public class MessagingApiTest extends AbstractApiTest {
         assertNull(extractHttpEntity(arg));
 
         assertUriContainsQueryParams(arg.getURI(), "11");
-        assertUriContainsQueryParams(arg.getURI(), "Status=no_credits");
+        assertUriContainsQueryParams(arg.getURI(), "status=no_credits");
     }
 }

@@ -40,7 +40,7 @@ public class ClientUtilsTest {
         assertThat(queryParams, containsString("Subject=" + encode("test subject")));
         assertThat(queryParams, containsString("Message=" + encode("this is mms message")));
         assertThat(queryParams, containsString("MessageTypeID=3"));
-        assertThat(queryParams, containsString("StampToSend=" + now.getTime()));
+        assertThat(queryParams, containsString("StampToSend=" + now.getTime() / 1000L));
     }
 
     @Test
