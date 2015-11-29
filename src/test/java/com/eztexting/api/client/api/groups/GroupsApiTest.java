@@ -4,7 +4,6 @@ import com.eztexting.api.client.api.AbstractApiTest;
 import com.eztexting.api.client.api.common.model.EzTextingResponse;
 import com.eztexting.api.client.api.common.model.SortType;
 import com.eztexting.api.client.api.groups.model.Group;
-import com.eztexting.api.client.api.groups.model.GroupsApiResponse;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
@@ -29,8 +28,8 @@ public class GroupsApiTest extends AbstractApiTest {
         Group group = new Group();
         group.setName("group 1");
         group.setNote("note 1");
-        GroupsApiResponse response = client.groupsApi().create(group);
-        EzTextingResponse<GroupsApiResponse> ezResponse = new EzTextingResponse<>("Success", 201, response);
+        Group created = client.groupsApi().create(group);
+        EzTextingResponse<Group> ezResponse = new EzTextingResponse<>("Success", 201, created);
         JSONAssert.assertEquals(expectedJson, jsonConverter.serialize(ezResponse), true);
 
         HttpUriRequest arg = captor.getValue();
@@ -53,8 +52,8 @@ public class GroupsApiTest extends AbstractApiTest {
         group.setId(10L);
         group.setName("group 2");
         group.setNote("note 2");
-        GroupsApiResponse response = client.groupsApi().update(group);
-        EzTextingResponse<GroupsApiResponse> ezResponse = new EzTextingResponse<>("Success", 201, response);
+        Group updated = client.groupsApi().update(group);
+        EzTextingResponse<Group> ezResponse = new EzTextingResponse<>("Success", 201, updated);
         JSONAssert.assertEquals(expectedJson, jsonConverter.serialize(ezResponse), true);
 
         HttpUriRequest arg = captor.getValue();
@@ -74,8 +73,8 @@ public class GroupsApiTest extends AbstractApiTest {
         String expectedJson = getJsonPayload("/groups/groupsApi/get.json");
         ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(expectedJson);
 
-        GroupsApiResponse response = client.groupsApi().get(10L);
-        EzTextingResponse<GroupsApiResponse> ezResponse = new EzTextingResponse<>("Success", 200, response);
+        Group group = client.groupsApi().get(10L);
+        EzTextingResponse<Group> ezResponse = new EzTextingResponse<>("Success", 200, group);
         JSONAssert.assertEquals(expectedJson, jsonConverter.serialize(ezResponse), true);
 
         HttpUriRequest arg = captor.getValue();
@@ -93,15 +92,15 @@ public class GroupsApiTest extends AbstractApiTest {
         String expectedJson = getJsonPayload("/groups/groupsApi/getAllGroups.json");
         ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(expectedJson);
 
-        GetAllGroupsRequest request = GetAllGroupsRequest.create()
-            .sortBy(GetAllGroupsRequest.SortProperty.NAME)
+        GetGroupsRequest request = GetGroupsRequest.create()
+            .sortBy(GetGroupsRequest.SortProperty.NAME)
             .sortType(SortType.ASC)
             .itemsPerPage(10)
             .page(5)
             .build();
 
-        List<GroupsApiResponse> response = client.groupsApi().get(request);
-        EzTextingResponse<GroupsApiResponse> ezResponse = new EzTextingResponse<>("Success", 200, response);
+        List<Group> groups = client.groupsApi().get(request);
+        EzTextingResponse<Group> ezResponse = new EzTextingResponse<>("Success", 200, groups);
         JSONAssert.assertEquals(expectedJson, jsonConverter.serialize(ezResponse), true);
 
         HttpUriRequest arg = captor.getValue();

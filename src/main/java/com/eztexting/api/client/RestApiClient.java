@@ -6,11 +6,12 @@ import com.eztexting.api.client.auth.Authentication;
 import com.eztexting.api.client.auth.RequestParamAuth;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.apache.http.HttpEntity;
+import org.apache.http.HttpHeaders;
 import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.EntityBuilder;
 import org.apache.http.client.methods.RequestBuilder;
+import org.apache.http.entity.ContentType;
 import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.impl.client.HttpClientBuilder;
@@ -19,7 +20,10 @@ import org.apache.http.util.EntityUtils;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import static com.eztexting.api.client.ClientConstants.BASE_PATH_PROPERTY;
 import static com.eztexting.api.client.ClientConstants.USER_AGENT_PROPERTY;
@@ -197,8 +201,9 @@ public class RestApiClient {
         try {
             String uri = getApiBasePath() + path;
             String textPayload = buildTextPayload(payload);
-            RequestBuilder requestBuilder = RequestBuilder.post(uri).setEntity(
-                EntityBuilder.create().setText(textPayload).build());
+            RequestBuilder requestBuilder = RequestBuilder.post(uri)
+                .setHeader(HttpHeaders.CONTENT_TYPE, ContentType.APPLICATION_FORM_URLENCODED.getMimeType())
+                .setEntity(EntityBuilder.create().setText(textPayload).build());
             LOGGER.debug("POST request to {} params: {}", uri, textPayload);
             return doRequest(requestBuilder, type);
         } catch (IOException e) {
@@ -226,8 +231,9 @@ public class RestApiClient {
         try {
             String uri = getApiBasePath() + path;
             String stringPayload = buildTextPayload(payload);
-            RequestBuilder requestBuilder = RequestBuilder.put(uri).setEntity(
-                EntityBuilder.create().setText(stringPayload).build());
+            RequestBuilder requestBuilder = RequestBuilder.put(uri)
+                .setHeader(HttpHeaders.CONTENT_TYPE, ContentType.APPLICATION_FORM_URLENCODED.getMimeType())
+                .setEntity(EntityBuilder.create().setText(stringPayload).build());
             LOGGER.debug("PUT request to {} params: {}", uri, stringPayload);
             return doRequest(requestBuilder, type);
         } catch (IOException e) {
@@ -236,7 +242,7 @@ public class RestApiClient {
     }
 
     /**
-     * Performs DELETE request to specified path
+     * Performs DELETE request to specified path with query parameters
      *
      * @param path request path
      * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
@@ -248,28 +254,10 @@ public class RestApiClient {
      * @throws EzTextingClientException     in case error has occurred in client.
      */
     public void delete(String path) {
-        delete(path, Collections.<NameValuePair>emptyList());
-    }
-
-    /**
-     * Performs DELETE request to specified path with query parameters
-     *
-     * @param path        request path
-     * @param queryParams query parameters
-     * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
-     * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
-     * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
-     * @throws ResourceNotFoundException    in case HTTP response code is 404 - NOT FOUND, the resource requested does not exist.
-     * @throws InternalServerErrorException in case HTTP response code is 500 - Internal Server Error.
-     * @throws EzTextingApiException        in case HTTP response code is something different from codes listed above.
-     * @throws EzTextingClientException     in case error has occurred in client.
-     */
-    public void delete(String path, List<NameValuePair> queryParams) {
         try {
-            String uri = getApiBasePath() + path;
-            LOGGER.debug("DELETE request to {} with params {}", uri, queryParams);
+            String uri = getApiBasePath() + path + '&' + buildTextPayload(null);
+            LOGGER.debug("DELETE request to {}", uri);
             RequestBuilder requestBuilder = RequestBuilder.delete(uri);
-            requestBuilder.addParameters(queryParams.toArray(new NameValuePair[queryParams.size()]));
             doRequest(requestBuilder, String.class);
             LOGGER.debug("delete executed");
         } catch (IOException e) {

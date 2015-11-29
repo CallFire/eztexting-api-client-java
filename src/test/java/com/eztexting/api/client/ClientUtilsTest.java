@@ -1,7 +1,7 @@
 package com.eztexting.api.client;
 
 import com.eztexting.api.client.api.common.model.SortType;
-import com.eztexting.api.client.api.groups.GetAllGroupsRequest;
+import com.eztexting.api.client.api.groups.GetGroupsRequest;
 import com.eztexting.api.client.api.messaging.model.MessageType;
 import com.eztexting.api.client.api.messaging.model.MmsMessage;
 import org.junit.Test;
@@ -45,8 +45,8 @@ public class ClientUtilsTest {
 
     @Test
     public void buildQueryParamsFromGetRequest() throws Exception {
-        GetAllGroupsRequest request = GetAllGroupsRequest.create()
-            .sortBy(GetAllGroupsRequest.SortProperty.NAME)
+        GetGroupsRequest request = GetGroupsRequest.create()
+            .sortBy(GetGroupsRequest.SortProperty.NAME)
             .sortType(SortType.ASC)
             .itemsPerPage(10)
             .page(5)

@@ -9,6 +9,11 @@ public class Group extends EzTextingModel {
     private Long id;
     private String name;
     private String note;
+    private Long contactCount;
+
+    public Long getContactCount() {
+        return contactCount;
+    }
 
     public Long getId() {
         return id;
@@ -40,6 +45,7 @@ public class Group extends EzTextingModel {
             .append("id", id)
             .append("name", name)
             .append("note", note)
+            .append("contactCount", contactCount)
             .toString();
     }
 }

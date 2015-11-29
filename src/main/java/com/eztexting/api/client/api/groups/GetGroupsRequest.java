@@ -9,14 +9,14 @@ import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 @JsonNaming(CamelCaseStrategy.class)
-public class GetAllGroupsRequest extends EzTextingModel {
+public class GetGroupsRequest extends EzTextingModel {
     private SortProperty sortBy;
     @JsonProperty("sortDir")
     private SortType sortType;
     private Integer itemsPerPage;
     private Integer page;
 
-    private GetAllGroupsRequest() {
+    private GetGroupsRequest() {
     }
 
     /**
@@ -63,10 +63,10 @@ public class GetAllGroupsRequest extends EzTextingModel {
      * Builder for get all groups request
      */
     @SuppressWarnings("unchecked")
-    public static class Builder extends AbstractBuilder<GetAllGroupsRequest> {
+    public static class Builder extends AbstractBuilder<GetGroupsRequest> {
 
         private Builder() {
-            super(new GetAllGroupsRequest());
+            super(new GetGroupsRequest());
         }
 
         /**

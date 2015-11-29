@@ -2,7 +2,7 @@ package com.eztexting.api.client.api.groups;
 
 import com.eztexting.api.client.*;
 import com.eztexting.api.client.api.groups.model.Group;
-import com.eztexting.api.client.api.groups.model.GroupsApiResponse;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
 
 import java.util.List;
@@ -36,8 +36,8 @@ public class GroupsApi {
      * @throws EzTextingApiException        in case HTTP response code is something different from codes listed above.
      * @throws EzTextingClientException     in case error has occurred in client.
      */
-    public GroupsApiResponse create(Group group) {
-        return client.post(GROUPS_PATH, GroupsApiResponse.class, group).getEntry();
+    public Group create(Group group) {
+        return client.post(GROUPS_PATH, Group.class, group).getEntry();
     }
 
     /**
@@ -52,10 +52,10 @@ public class GroupsApi {
      * @throws EzTextingApiException        in case HTTP response code is something different from codes listed above.
      * @throws EzTextingClientException     in case error has occurred in client.
      */
-    public GroupsApiResponse update(Group group) {
+    public Group update(Group group) {
         Validate.notNull(group.getId(), "id cannot be null");
-        String path = GROUPS_ITEM_PATH.replaceFirst(PLACEHOLDER, group.getId().toString());
-        return client.post(path, GroupsApiResponse.class, group).getEntry();
+        String path = StringUtils.replaceOnce(GROUPS_ITEM_PATH, PLACEHOLDER, group.getId().toString());
+        return client.post(path, Group.class, group).getEntry();
     }
 
     /**
@@ -70,10 +70,10 @@ public class GroupsApi {
      * @throws EzTextingApiException        in case HTTP response code is something different from codes listed above.
      * @throws EzTextingClientException     in case error has occurred in client.
      */
-    public GroupsApiResponse get(Long id) {
+    public Group get(Long id) {
         Validate.notNull(id, "id cannot be null");
-        String path = GROUPS_ITEM_PATH.replaceFirst(PLACEHOLDER, id.toString());
-        return client.get(path, GroupsApiResponse.class).getEntry();
+        String path = StringUtils.replaceOnce(GROUPS_ITEM_PATH, PLACEHOLDER, id.toString());
+        return client.get(path, Group.class).getEntry();
     }
 
     /**
@@ -88,8 +88,8 @@ public class GroupsApi {
      * @throws EzTextingApiException        in case HTTP response code is something different from codes listed above.
      * @throws EzTextingClientException     in case error has occurred in client.
      */
-    public List<GroupsApiResponse> get(GetAllGroupsRequest request) {
-        return client.get(GROUPS_PATH, GroupsApiResponse.class, request).getEntries();
+    public List<Group> get(GetGroupsRequest request) {
+        return client.get(GROUPS_PATH, Group.class, request).getEntries();
     }
 
     /**
@@ -106,6 +106,6 @@ public class GroupsApi {
      */
     public void delete(Long id) {
         Validate.notNull(id, "id cannot be null");
-        client.delete(GROUPS_ITEM_PATH.replaceFirst(PLACEHOLDER, id.toString()));
+        client.delete(StringUtils.replaceOnce(GROUPS_ITEM_PATH, PLACEHOLDER, id.toString()));
     }
 }
