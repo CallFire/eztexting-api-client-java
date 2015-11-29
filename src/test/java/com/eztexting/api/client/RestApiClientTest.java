@@ -17,7 +17,7 @@ public class RestApiClientTest extends AbstractApiTest {
     }
 
     @Test
-    public void testExpectBadRequestWhen400() throws Exception {
+    public void expectBadRequestWhen400() throws Exception {
         mockHttpResponse(expectedJson, 400);
 
         String msg1 = "PhoneNumbers: '(123)45-67' contains characters which are not digits";
@@ -32,31 +32,31 @@ public class RestApiClientTest extends AbstractApiTest {
     }
 
     @Test(expected = UnauthorizedException.class)
-    public void testExpectUnauthorizedWhen401() throws Exception {
+    public void expectUnauthorizedWhen401() throws Exception {
         mockHttpResponse(expectedJson, 401);
         client.delete("/");
     }
 
     @Test(expected = AccessForbiddenException.class)
-    public void testExpectAccessForbiddenWhen403() throws Exception {
+    public void expectAccessForbiddenWhen403() throws Exception {
         mockHttpResponse(expectedJson, 403);
         client.delete("/");
     }
 
     @Test(expected = ResourceNotFoundException.class)
-    public void testExpectResourceNotFoundWhen404() throws Exception {
+    public void expectResourceNotFoundWhen404() throws Exception {
         mockHttpResponse(expectedJson, 404);
         client.delete("/");
     }
 
     @Test(expected = InternalServerErrorException.class)
-    public void testExpectInternalServerErrorWhen500() throws Exception {
+    public void expectInternalServerErrorWhen500() throws Exception {
         mockHttpResponse(expectedJson, 500);
         client.delete("/");
     }
 
     @Test(expected = EzTextingApiException.class)
-    public void testExpectCallfireApiExceptionInOtherCodeReturned() throws Exception {
+    public void expectCallfireApiExceptionInOtherCodeReturned() throws Exception {
         mockHttpResponse(expectedJson, 499);
         client.delete("/");
     }

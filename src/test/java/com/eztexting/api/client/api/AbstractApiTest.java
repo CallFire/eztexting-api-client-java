@@ -21,9 +21,12 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
 
 import java.io.IOException;
+import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsString;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.when;
 
@@ -97,6 +100,12 @@ public class AbstractApiTest {
         doReturn(mockHttpResponse).when(mockHttpClient).execute(captor.capture());
 
         return captor;
+    }
+
+    protected void assertUriContainsQueryParams(URI uri, String... params) {
+        for (String param : params) {
+            assertThat(uri.toString(), containsString(param));
+        }
     }
 
     protected StatusLine getStatusForCode(int code) {

@@ -1,5 +1,7 @@
 package com.eztexting.api.client;
 
+import com.eztexting.api.client.api.common.model.SortType;
+import com.eztexting.api.client.api.groups.GetGroupsRequest;
 import com.eztexting.api.client.api.messaging.model.MessageType;
 import com.eztexting.api.client.api.messaging.model.MmsMessage;
 import org.junit.Test;
@@ -14,7 +16,7 @@ import static org.junit.Assert.assertThat;
 public class ClientUtilsTest {
 
     @Test
-    public void testBuildQueryParams() throws Exception {
+    public void buildQueryParams() throws Exception {
         MmsMessage mms = new MmsMessage();
         mms.setFileId(123L);
         mms.setMessageType(MessageType.MMS);
@@ -26,18 +28,36 @@ public class ClientUtilsTest {
         mms.setStampToSend(now);
         String queryParams = ClientUtils.buildQueryParams(mms).toString();
 
-        System.out.println("Response: " + queryParams);
+        System.out.println("params: " + queryParams);
 
-        assertThat(queryParams, containsString("FileId=" + "123"));
-        assertThat(queryParams, containsString("Groups[]=" + "group1"));
-        assertThat(queryParams, containsString("Groups[]=" + "group2"));
-        assertThat(queryParams, containsString("Groups[]=" + "group3"));
-        assertThat(queryParams, containsString("PhoneNumbers[]=" + "1234567890"));
-        assertThat(queryParams, containsString("PhoneNumbers[]=" + "2345678900"));
-        assertThat(queryParams, containsString("PhoneNumbers[]=" + "3456789000"));
+        assertThat(queryParams, containsString("FileId=123"));
+        assertThat(queryParams, containsString("Groups[]=group1"));
+        assertThat(queryParams, containsString("Groups[]=group2"));
+        assertThat(queryParams, containsString("Groups[]=group3"));
+        assertThat(queryParams, containsString("PhoneNumbers[]=1234567890"));
+        assertThat(queryParams, containsString("PhoneNumbers[]=2345678900"));
+        assertThat(queryParams, containsString("PhoneNumbers[]=3456789000"));
         assertThat(queryParams, containsString("Subject=" + encode("test subject")));
         assertThat(queryParams, containsString("Message=" + encode("this is mms message")));
         assertThat(queryParams, containsString("MessageTypeID=3"));
-        assertThat(queryParams, containsString("StampToSend=" + now.getTime()));
+        assertThat(queryParams, containsString("StampToSend=" + now.getTime() / 1000L));
+    }
+
+    @Test
+    public void buildQueryParamsFromGetRequest() throws Exception {
+        GetGroupsRequest request = GetGroupsRequest.create()
+            .sortBy(GetGroupsRequest.SortProperty.NAME)
+            .sortType(SortType.ASC)
+            .itemsPerPage(10)
+            .page(5)
+            .build();
+        String queryParams = ClientUtils.buildQueryParams(request).toString();
+
+        System.out.println("get request: " + queryParams);
+
+        assertThat(queryParams, containsString("sortBy=NAME"));
+        assertThat(queryParams, containsString("sortDir=ASC"));
+        assertThat(queryParams, containsString("itemsPerPage=10"));
+        assertThat(queryParams, containsString("page=5"));
     }
 }

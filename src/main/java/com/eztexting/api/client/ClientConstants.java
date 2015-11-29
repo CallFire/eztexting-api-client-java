@@ -10,6 +10,6 @@ public interface ClientConstants {
     String USER_AGENT_PROPERTY = "com.eztexting.api.client.version";
     String CLIENT_CONFIG_FILE = "/com/eztexting/api/client/eztexting.properties";
 
-    String PLACEHOLDER = "\\{\\}";
+    String PLACEHOLDER = "{}";
     String DATE_FORMAT_PATTERN = "MM-dd-yyyy h:mm a";
 }
