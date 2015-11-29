@@ -5,6 +5,8 @@ import com.eztexting.api.client.api.common.model.request.QueryParamIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
 
 import java.io.UnsupportedEncodingException;
 import java.lang.annotation.Annotation;
@@ -12,8 +14,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URLEncoder;
-import java.util.Collection;
-import java.util.Date;
+import java.util.*;
 
 import static com.eztexting.api.client.CamelCaseStrategy.CAMEL_CASE_STRATEGY;
 import static com.fasterxml.jackson.databind.PropertyNamingStrategy.PASCAL_CASE_TO_CAMEL_CASE;
@@ -47,9 +48,9 @@ public final class ClientUtils {
         }
         readFields(request, params, request.getClass());
         // remove & at the end
-        int lastChar = params.length() - 1;
-        if (params.charAt(lastChar) == '&') {
-            params.deleteCharAt(lastChar);
+        int length = params.length();
+        if(length > 1 && params.charAt(length - 1) == '&') {
+            params.setLength(length - 1);
         }
         return params;
     }
@@ -91,7 +92,7 @@ public final class ClientUtils {
                 }
             }
             if (value instanceof Date) {
-                value = ((Date) value).getTime();
+                value = ((Date) value).getTime() / 1000L;
             }
             params.append(paramName).append("=").append(encode(value.toString())).append("&");
         }
@@ -103,6 +104,12 @@ public final class ClientUtils {
         } catch (UnsupportedEncodingException e) {
             throw new EzTextingClientException(e);
         }
+    }
+
+    public static List<NameValuePair> asParams(String name, Object value) {
+        List<NameValuePair> params = new ArrayList<>();
+        params.add(new BasicNameValuePair(name, Objects.toString(value)));
+        return params;
     }
 
     private static String getParamName(Field field, JsonNaming jsonNaming) {

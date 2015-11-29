@@ -8,6 +8,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHeaders;
 import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.EntityBuilder;
 import org.apache.http.client.methods.RequestBuilder;
@@ -20,10 +21,7 @@ import org.apache.http.util.EntityUtils;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.List;
-import java.util.Map;
-import java.util.SortedSet;
-import java.util.TreeSet;
+import java.util.*;
 
 import static com.eztexting.api.client.ClientConstants.BASE_PATH_PROPERTY;
 import static com.eztexting.api.client.ClientConstants.USER_AGENT_PROPERTY;
@@ -98,7 +96,47 @@ public class RestApiClient {
      * @throws EzTextingClientException     in case error has occurred in client.
      */
     public <T> EzTextingResponse<T> get(String path, Class<T> type) {
-        return get(path, type, null);
+        return get(path, type, Collections.<NameValuePair>emptyList());
+    }
+
+    /**
+     * Performs GET request to specified path
+     *
+     * @param path   request path
+     * @param type   return entity type
+     * @param params additional request parameters
+     * @param <T>    return entity type
+     * @return pojo mapped from json
+     * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
+     * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
+     * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
+     * @throws ResourceNotFoundException    in case HTTP response code is 404 - NOT FOUND, the resource requested does not exist.
+     * @throws InternalServerErrorException in case HTTP response code is 500 - Internal Server Error.
+     * @throws EzTextingApiException        in case HTTP response code is something different from codes listed above.
+     * @throws EzTextingClientException     in case error has occurred in client.
+     */
+    public <T> EzTextingResponse<T> get(String path, Class<T> type, List<NameValuePair> params) {
+        return get(path, type, null, params);
+    }
+
+    /**
+     * Performs GET request to specified path
+     *
+     * @param path    request path
+     * @param type    return entity type
+     * @param request get request object
+     * @param <T>     return entity type
+     * @return pojo mapped from json
+     * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
+     * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
+     * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
+     * @throws ResourceNotFoundException    in case HTTP response code is 404 - NOT FOUND, the resource requested does not exist.
+     * @throws InternalServerErrorException in case HTTP response code is 500 - Internal Server Error.
+     * @throws EzTextingApiException        in case HTTP response code is something different from codes listed above.
+     * @throws EzTextingClientException     in case error has occurred in client.
+     */
+    public <T> EzTextingResponse<T> get(String path, Class<T> type, EzTextingModel request) {
+        return get(path, type, request, Collections.<NameValuePair>emptyList());
     }
 
     /**
@@ -117,9 +155,11 @@ public class RestApiClient {
      * @throws EzTextingApiException        in case HTTP response code is something different from codes listed above.
      * @throws EzTextingClientException     in case error has occurred in client.
      */
-    public <T> EzTextingResponse<T> get(String path, Class<T> type, EzTextingModel request) {
+    public <T> EzTextingResponse<T> get(String path, Class<T> type, EzTextingModel request,
+        List<NameValuePair> params) {
         try {
-            String uri = getApiBasePath() + path + '&' + buildTextPayload(request);
+            String uri = getApiBasePath() + path + '&' + buildTextPayloadWithAuthData(request) + '&' +
+                buildTextPayload(params);
             RequestBuilder requestBuilder = RequestBuilder.get(uri);
             LOGGER.debug("GET request to {}", uri);
             return doRequest(requestBuilder, type);
@@ -200,7 +240,7 @@ public class RestApiClient {
     public <T> EzTextingResponse<T> post(String path, Class<T> type, EzTextingModel payload) {
         try {
             String uri = getApiBasePath() + path;
-            String textPayload = buildTextPayload(payload);
+            String textPayload = buildTextPayloadWithAuthData(payload);
             RequestBuilder requestBuilder = RequestBuilder.post(uri)
                 .setHeader(HttpHeaders.CONTENT_TYPE, ContentType.APPLICATION_FORM_URLENCODED.getMimeType())
                 .setEntity(EntityBuilder.create().setText(textPayload).build());
@@ -230,7 +270,7 @@ public class RestApiClient {
     public <T> EzTextingResponse<T> put(String path, Class<T> type, EzTextingModel payload) {
         try {
             String uri = getApiBasePath() + path;
-            String stringPayload = buildTextPayload(payload);
+            String stringPayload = buildTextPayloadWithAuthData(payload);
             RequestBuilder requestBuilder = RequestBuilder.put(uri)
                 .setHeader(HttpHeaders.CONTENT_TYPE, ContentType.APPLICATION_FORM_URLENCODED.getMimeType())
                 .setEntity(EntityBuilder.create().setText(stringPayload).build());
@@ -255,7 +295,7 @@ public class RestApiClient {
      */
     public void delete(String path) {
         try {
-            String uri = getApiBasePath() + path + '&' + buildTextPayload(null);
+            String uri = getApiBasePath() + path + '&' + buildTextPayloadWithAuthData(null);
             LOGGER.debug("DELETE request to {}", uri);
             RequestBuilder requestBuilder = RequestBuilder.delete(uri);
             doRequest(requestBuilder, String.class);
@@ -330,13 +370,25 @@ public class RestApiClient {
         }
     }
 
-    private String buildTextPayload(EzTextingModel payload) {
+    private String buildTextPayloadWithAuthData(EzTextingModel payload) {
         StringBuilder textPayload = new StringBuilder(authentication.asParamString());
         StringBuilder params = ClientUtils.buildQueryParams(payload);
         if (params.length() > 0) {
             textPayload.append('&');
         }
         textPayload.append(params);
+        return textPayload.toString();
+    }
+
+    private String buildTextPayload(List<NameValuePair> params) {
+        StringBuilder textPayload = new StringBuilder();
+        for (NameValuePair param : params) {
+            textPayload.append(param.getName()).append("=").append(ClientUtils.encode(param.getValue())).append('&');
+        }
+        int length = textPayload.length();
+        if(length > 1 && textPayload.charAt(length - 1) == '&') {
+            textPayload.setLength(length - 1);
+        }
         return textPayload.toString();
     }
 
