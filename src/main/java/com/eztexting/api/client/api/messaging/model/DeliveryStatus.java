@@ -1,10 +1,5 @@
 package com.eztexting.api.client.api.messaging.model;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
-
-import java.util.Objects;
-
 /**
  * Delivery status type
  */
@@ -17,18 +12,8 @@ public enum DeliveryStatus {
         this.status = status;
     }
 
-    @JsonCreator
-    public static DeliveryStatus fromValue(String status) {
-        for (DeliveryStatus messageType : values()) {
-            if (Objects.equals(messageType.status, status)) {
-                return messageType;
-            }
-        }
-        throw new IllegalArgumentException("there is no type for DeliveryStatus: " + status);
-    }
-
-    @JsonValue
-    public String toValue() {
+    @Override
+    public String toString() {
         return status;
     }
 }

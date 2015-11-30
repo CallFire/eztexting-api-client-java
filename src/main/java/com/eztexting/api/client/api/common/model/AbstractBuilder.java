@@ -1,6 +1,4 @@
-package com.eztexting.api.client.api.common.model.request;
-
-import com.eztexting.api.client.api.common.model.EzTextingModel;
+package com.eztexting.api.client.api.common.model;
 
 /**
  * Common builder for request objects

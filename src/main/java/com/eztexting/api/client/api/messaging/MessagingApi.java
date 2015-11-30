@@ -79,7 +79,7 @@ public class MessagingApi {
      */
     public List<Long> getDetailedReport(long id, DeliveryStatus status) {
         String path = StringUtils.replace(DETAILED_REPORT_PATH, PLACEHOLDER, String.valueOf(id));
-        List<NameValuePair> params = ClientUtils.asParams("status", status.toValue());
+        List<NameValuePair> params = ClientUtils.asParams("status", status.toString());
         return client.get(path, Long.class, params).getEntries();
     }
 }

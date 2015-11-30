@@ -1,10 +1,12 @@
 package com.eztexting.api.client;
 
 import com.eztexting.api.client.api.common.model.EzTextingModel;
-import com.eztexting.api.client.api.common.model.request.QueryParamIgnore;
+import com.eztexting.api.client.api.common.model.QueryParamAsNumber;
+import com.eztexting.api.client.api.common.model.QueryParamIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 
@@ -49,7 +51,7 @@ public final class ClientUtils {
         readFields(request, params, request.getClass());
         // remove & at the end
         int length = params.length();
-        if(length > 1 && params.charAt(length - 1) == '&') {
+        if (length > 1 && params.charAt(length - 1) == '&') {
             params.setLength(length - 1);
         }
         return params;
@@ -94,7 +96,8 @@ public final class ClientUtils {
             if (value instanceof Date) {
                 value = ((Date) value).getTime() / 1000L;
             }
-            params.append(paramName).append("=").append(encode(value.toString())).append("&");
+            String paramValue = getParamValue(field, value);
+            params.append(paramName).append("=").append(encode(paramValue)).append("&");
         }
     }
 
@@ -128,6 +131,16 @@ public final class ClientUtils {
             paramName = paramName + "[]";
         }
         return paramName;
+    }
+
+    private static String getParamValue(Field field, Object value) {
+        if (value instanceof Boolean &&
+            field.isAnnotationPresent(QueryParamAsNumber.class) &&
+            field.getAnnotation(QueryParamAsNumber.class).enabled()) {
+            return BooleanUtils.toIntegerObject((Boolean) value).toString();
+        } else {
+            return value.toString();
+        }
     }
 
     @SuppressWarnings("unchecked")

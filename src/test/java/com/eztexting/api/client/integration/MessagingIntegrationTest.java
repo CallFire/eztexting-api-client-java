@@ -29,13 +29,11 @@ public class MessagingIntegrationTest extends AbstractIntegrationTest {
     public void getReport() throws Exception {
         DeliveryReport report = client.messagingApi().getReport(56491730L);
         System.out.println("getReport response: " + report);
-
     }
 
     @Test
     public void getDetailedReport() throws Exception {
         List<Long> report = client.messagingApi().getDetailedReport(56491730L, DeliveryStatus.BOUNCED);
         System.out.println("getDetailedReport response: " + report);
-
     }
 }

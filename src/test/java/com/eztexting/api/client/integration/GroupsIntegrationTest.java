@@ -2,7 +2,7 @@ package com.eztexting.api.client.integration;
 
 import com.eztexting.api.client.AccessForbiddenException;
 import com.eztexting.api.client.api.common.model.SortType;
-import com.eztexting.api.client.api.groups.GetGroupsRequest;
+import com.eztexting.api.client.api.groups.model.GetGroupsRequest;
 import com.eztexting.api.client.api.groups.model.Group;
 import org.junit.Ignore;
 import org.junit.Test;

@@ -3,6 +3,7 @@ package com.eztexting.api.client.api.groups;
 import com.eztexting.api.client.api.AbstractApiTest;
 import com.eztexting.api.client.api.common.model.EzTextingResponse;
 import com.eztexting.api.client.api.common.model.SortType;
+import com.eztexting.api.client.api.groups.model.GetGroupsRequest;
 import com.eztexting.api.client.api.groups.model.Group;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
@@ -109,7 +110,7 @@ public class GroupsApiTest extends AbstractApiTest {
         assertNull(requestBody);
 
         assertThat(arg.getURI().toString(), containsString("sortBy=NAME"));
-        assertThat(arg.getURI().toString(), containsString("sortDir=ASC"));
+        assertThat(arg.getURI().toString(), containsString("sortDir=asc"));
         assertThat(arg.getURI().toString(), containsString("itemsPerPage=10"));
         assertThat(arg.getURI().toString(), containsString("page=5"));
     }

@@ -1,6 +1,7 @@
 package com.eztexting.api.client;
 
 import com.eztexting.api.client.api.common.model.EzTextingResponse;
+import com.eztexting.api.client.api.contacts.model.Contact;
 import com.eztexting.api.client.api.groups.model.Group;
 import com.eztexting.api.client.api.messaging.model.DeliveryReport;
 import com.eztexting.api.client.api.messaging.model.SendMessageResponse;
@@ -27,6 +28,7 @@ public final class ModelType {
         SIMPLE_TYPES.put(Long.class, new TypeReference<EzTextingResponse<Long>>() {});
 
         SIMPLE_TYPES.put(Group.class, new TypeReference<EzTextingResponse<Group>>() {});
+        SIMPLE_TYPES.put(Contact.class, new TypeReference<EzTextingResponse<Contact>>() {});
         SIMPLE_TYPES.put(DeliveryReport.class, new TypeReference<EzTextingResponse<DeliveryReport>>() {});
         SIMPLE_TYPES.put(SendMessageResponse.class, new TypeReference<EzTextingResponse<SendMessageResponse>>() {});
         // @formatter:on
