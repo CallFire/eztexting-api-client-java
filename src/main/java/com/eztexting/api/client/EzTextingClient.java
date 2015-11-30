@@ -1,5 +1,6 @@
 package com.eztexting.api.client;
 
+import com.eztexting.api.client.api.contacts.ContactsApi;
 import com.eztexting.api.client.api.groups.GroupsApi;
 import com.eztexting.api.client.auth.RequestParamAuth;
 import com.eztexting.api.client.api.messaging.MessagingApi;
@@ -54,6 +55,7 @@ public class EzTextingClient {
     private RestApiClient restApiClient;
 
     private MessagingApi messagingApi;
+    private ContactsApi contactsApi;
     private GroupsApi groupsApi;
 
     /**
@@ -94,6 +96,18 @@ public class EzTextingClient {
             messagingApi = new MessagingApi(restApiClient);
         }
         return messagingApi;
+    }
+
+    /**
+     * Get contacts API for managing your contacts
+     *
+     * @return endpoint object
+     */
+    public ContactsApi contactsApi() {
+        if (contactsApi == null) {
+            contactsApi = new ContactsApi(restApiClient);
+        }
+        return contactsApi;
     }
 
     /**

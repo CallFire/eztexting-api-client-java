@@ -1,7 +1,8 @@
 package com.eztexting.api.client;
 
 import com.eztexting.api.client.api.common.model.SortType;
-import com.eztexting.api.client.api.groups.GetGroupsRequest;
+import com.eztexting.api.client.api.contacts.model.Contact;
+import com.eztexting.api.client.api.groups.model.GetGroupsRequest;
 import com.eztexting.api.client.api.messaging.model.MessageType;
 import com.eztexting.api.client.api.messaging.model.MmsMessage;
 import org.junit.Test;
@@ -56,8 +57,20 @@ public class ClientUtilsTest {
         System.out.println("get request: " + queryParams);
 
         assertThat(queryParams, containsString("sortBy=NAME"));
-        assertThat(queryParams, containsString("sortDir=ASC"));
+        assertThat(queryParams, containsString("sortDir=asc"));
         assertThat(queryParams, containsString("itemsPerPage=10"));
         assertThat(queryParams, containsString("page=5"));
+    }
+
+    @Test
+    public void buildQueryParamsWithBooleanAsNumber() throws Exception {
+        Contact contact = new Contact();
+        contact.setEmail("email@email.com");
+        contact.setOptOut(true);
+
+        String queryParams = ClientUtils.buildQueryParams(contact).toString();
+        System.out.println("contact: " + queryParams);
+        assertThat(queryParams, containsString("Email=" + encode("email@email.com")));
+        assertThat(queryParams, containsString("OptOut=1"));
     }
 }

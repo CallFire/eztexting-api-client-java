@@ -1,9 +1,9 @@
-package com.eztexting.api.client.api.groups;
+package com.eztexting.api.client.api.groups.model;
 
 import com.eztexting.api.client.CamelCaseStrategy;
 import com.eztexting.api.client.api.common.model.EzTextingModel;
 import com.eztexting.api.client.api.common.model.SortType;
-import com.eztexting.api.client.api.common.model.request.AbstractBuilder;
+import com.eztexting.api.client.api.common.model.AbstractBuilder;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import org.apache.commons.lang3.builder.ToStringBuilder;

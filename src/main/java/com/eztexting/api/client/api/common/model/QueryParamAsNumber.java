@@ -1,4 +1,4 @@
-package com.eztexting.api.client.api.common.model.request;
+package com.eztexting.api.client.api.common.model;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -6,11 +6,11 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Excludes selected field from http query param
+ * Converts annotated field to number if possible, e.g. true -> 1, false -> 0
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
-public @interface QueryParamIgnore {
+public @interface QueryParamAsNumber {
     /**
      * Set annotation enabled. Enabled by default
      *
