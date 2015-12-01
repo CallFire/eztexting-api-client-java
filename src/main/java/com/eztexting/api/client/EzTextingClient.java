@@ -2,6 +2,7 @@ package com.eztexting.api.client;
 
 import com.eztexting.api.client.api.contacts.ContactsApi;
 import com.eztexting.api.client.api.groups.GroupsApi;
+import com.eztexting.api.client.api.keywords.KeywordsApi;
 import com.eztexting.api.client.auth.RequestParamAuth;
 import com.eztexting.api.client.api.messaging.MessagingApi;
 
@@ -55,6 +56,7 @@ public class EzTextingClient {
     private RestApiClient restApiClient;
 
     private MessagingApi messagingApi;
+    private KeywordsApi keywordsApi;
     private ContactsApi contactsApi;
     private GroupsApi groupsApi;
 
@@ -96,6 +98,18 @@ public class EzTextingClient {
             messagingApi = new MessagingApi(restApiClient);
         }
         return messagingApi;
+    }
+
+    /**
+     * Get keywords APIs for rent, configure, cancel your keywords
+     *
+     * @return endpoint object
+     */
+    public KeywordsApi keywordsApi() {
+        if (keywordsApi == null) {
+            keywordsApi = new KeywordsApi(restApiClient);
+        }
+        return keywordsApi;
     }
 
     /**

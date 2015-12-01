@@ -1,0 +1,18 @@
+{
+  "Response": {
+    "Status": "Success",
+    "Code": 201,
+    "Entry": {
+      "ID": 147258369,
+      "Keyword": "honey",
+      "EnableDoubleOptIn": false,
+      "ConfirmMessage": "Reply Y to join",
+      "JoinMessage": "Thank you for joining our list",
+      "ForwardEmail": "test@test.com",
+      "ForwardUrl": "http://url",
+      "ContactGroupIDs": [
+        "Friends"
+      ]
+    }
+  }
+}

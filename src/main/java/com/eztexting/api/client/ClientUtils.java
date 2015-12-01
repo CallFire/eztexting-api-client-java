@@ -115,6 +115,12 @@ public final class ClientUtils {
         return params;
     }
 
+    public static List<NameValuePair> asParams(String name1, Object value1, String name2, Object value2) {
+        List<NameValuePair> params = asParams(name1, value1);
+        params.add(new BasicNameValuePair(name2, Objects.toString(value2)));
+        return params;
+    }
+
     private static String getParamName(Field field, JsonNaming jsonNaming) {
         String paramName = field.getName();
         // PascalCase properties by default
@@ -144,7 +150,7 @@ public final class ClientUtils {
     }
 
     @SuppressWarnings("unchecked")
-    private static <T, A> A getDeclaredAnnotation(Annotation[] declaredAnnotations, Class<A> annotation) {
+    private static <A> A getDeclaredAnnotation(Annotation[] declaredAnnotations, Class<A> annotation) {
         for (Annotation a : declaredAnnotations) {
             if (annotation.isAssignableFrom(a.getClass())) {
                 return (A) a;

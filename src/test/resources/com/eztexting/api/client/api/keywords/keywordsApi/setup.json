@@ -1,0 +1,18 @@
+{
+  "Response": {
+    "Status": "Success",
+    "Code": 200,
+    "Entry": {
+      "ID": 147258369,
+      "Keyword": "honey",
+      "EnableDoubleOptIn": true,
+      "ConfirmMessage": "Reply Y to join our sweetest list",
+      "JoinMessage": "The only reason for being a bee that I know of, is to make honey. And the only reason for making honey, is so as I can eat it.",
+      "ForwardEmail": "honey@bear-alliance.co.uk",
+      "ForwardUrl": "http://bear-alliance.co.uk/honey-donations/",
+      "ContactGroupIDs": [
+        "honey lovers", "cars club"
+      ]
+    }
+  }
+}
