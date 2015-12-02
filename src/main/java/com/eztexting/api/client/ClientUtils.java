@@ -112,7 +112,14 @@ public final class ClientUtils {
 
     public static List<NameValuePair> asParams(String name, Object value) {
         List<NameValuePair> params = new ArrayList<>();
-        params.add(new BasicNameValuePair(name, Objects.toString(value)));
+        if (value instanceof Collection) {
+            for (Object o : (Collection) value) {
+                params.add(new BasicNameValuePair(name + "[]", o.toString()));
+            }
+        } else {
+            params.add(new BasicNameValuePair(name, Objects.toString(value)));
+        }
+
         return params;
     }
 

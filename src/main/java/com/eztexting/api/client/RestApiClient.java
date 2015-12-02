@@ -5,6 +5,7 @@ import com.eztexting.api.client.api.common.model.EzTextingResponse;
 import com.eztexting.api.client.auth.Authentication;
 import com.eztexting.api.client.auth.RequestParamAuth;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHeaders;
 import org.apache.http.HttpResponse;
@@ -34,6 +35,7 @@ import static com.eztexting.api.client.ModelType.of;
  */
 public class RestApiClient {
     private static final Logger LOGGER = new Logger(RestApiClient.class);
+    private static final EzTextingResponse EMPTY_RESPONSE = new EzTextingResponse();
 
     private HttpClient httpClient;
     private JsonConverter jsonConverter;
@@ -376,10 +378,14 @@ public class RestApiClient {
         HttpEntity httpEntity = response.getEntity();
         if (httpEntity == null) {
             LOGGER.debug("received http code {} with null entity, returning empty response", statusCode);
-            return new EzTextingResponse<>();
+            return EMPTY_RESPONSE;
         }
         String stringResponse = EntityUtils.toString(httpEntity, "UTF-8");
         verifyResponse(statusCode, stringResponse);
+        if (StringUtils.isBlank(stringResponse)) {
+            LOGGER.debug("received http code {} with empty entity, returning empty response", statusCode);
+            return EMPTY_RESPONSE;
+        }
 
         if (type.equals(InputStream.class)) {
             return (EzTextingResponse<T>) EzTextingResponse.withContent(httpEntity.getContent());

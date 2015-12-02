@@ -19,7 +19,7 @@ import static com.eztexting.api.client.ClientConstants.PLACEHOLDER;
  */
 public class InboxApi {
     private static final String FOLDERS_PATH = "/messages-folders?format=json";
-    private static final String FOLDERS_ITEM_PATH = "/contacts/{}?format=json";
+    private static final String FOLDERS_ITEM_PATH = "/messages-folders/{}?format=json";
     private static final String MESSAGES_PATH = "/incoming-messages?format=json";
     private static final String MESSAGES_ITEM_PATH = "/incoming-messages/{}?format=json";
     private static final String MOVE_MESSAGE_PATH = "/incoming-messages/?format=json&_method=move-to-folder";
@@ -67,7 +67,6 @@ public class InboxApi {
 
     /**
      * Moves an incoming text message in your Ez Texting Inbox to a specified folder.
-     * Note: You may include multiple Message IDs to move multiple messages to same folder in a single API call.
      *
      * @param id       message id
      * @param folderId folder id
@@ -83,6 +82,25 @@ public class InboxApi {
         Validate.notNull(id, "id cannot be null");
         Validate.notNull(folderId, "folderId cannot be null");
         List<NameValuePair> params = ClientUtils.asParams("ID", id.toString(), "FolderID", folderId.toString());
+        client.post(MOVE_MESSAGE_PATH, Object.class, params);
+    }
+
+    /**
+     * Moves several incoming text messages in your Ez Texting Inbox to a specified folder.
+     *
+     * @param ids      list with message ids
+     * @param folderId folder id
+     * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
+     * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
+     * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
+     * @throws ResourceNotFoundException    in case HTTP response code is 404 - NOT FOUND, the resource requested does not exist.
+     * @throws InternalServerErrorException in case HTTP response code is 500 - Internal Server Error.
+     * @throws EzTextingApiException        in case HTTP response code is something different from codes listed above.
+     * @throws EzTextingClientException     in case error has occurred in client.
+     */
+    public void moveMessages(List<Long> ids, Long folderId) {
+        Validate.notNull(folderId, "folderId cannot be null");
+        List<NameValuePair> params = ClientUtils.asParams("ID", ids, "FolderID", folderId.toString());
         client.post(MOVE_MESSAGE_PATH, Object.class, params);
     }
 
@@ -139,7 +157,7 @@ public class InboxApi {
     public void updateFolder(Folder folder) {
         Validate.notNull(folder.getId(), "id cannot be null");
         String path = StringUtils.replaceOnce(FOLDERS_ITEM_PATH, PLACEHOLDER, folder.getId().toString());
-        client.post(path, Object.class, folder);
+        client.post(path, String.class, folder);
     }
 
     /**
@@ -173,7 +191,7 @@ public class InboxApi {
      * @throws EzTextingApiException        in case HTTP response code is something different from codes listed above.
      * @throws EzTextingClientException     in case error has occurred in client.
      */
-    public List<Folder> getAllFolders() {
+    public List<Folder> getFolders() {
         return client.get(FOLDERS_PATH, Folder.class).getEntries();
     }
 
