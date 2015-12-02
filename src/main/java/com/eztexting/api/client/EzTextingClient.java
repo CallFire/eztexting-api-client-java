@@ -2,6 +2,7 @@ package com.eztexting.api.client;
 
 import com.eztexting.api.client.api.contacts.ContactsApi;
 import com.eztexting.api.client.api.groups.GroupsApi;
+import com.eztexting.api.client.api.inbox.InboxApi;
 import com.eztexting.api.client.api.keywords.KeywordsApi;
 import com.eztexting.api.client.auth.RequestParamAuth;
 import com.eztexting.api.client.api.messaging.MessagingApi;
@@ -56,6 +57,7 @@ public class EzTextingClient {
     private RestApiClient restApiClient;
 
     private MessagingApi messagingApi;
+    private InboxApi inboxApi;
     private KeywordsApi keywordsApi;
     private ContactsApi contactsApi;
     private GroupsApi groupsApi;
@@ -98,6 +100,18 @@ public class EzTextingClient {
             messagingApi = new MessagingApi(restApiClient);
         }
         return messagingApi;
+    }
+
+    /**
+     * Get inbox APIs for managing Inbox
+     *
+     * @return endpoint object
+     */
+    public InboxApi inboxApi() {
+        if (inboxApi == null) {
+            inboxApi = new InboxApi(restApiClient);
+        }
+        return inboxApi;
     }
 
     /**

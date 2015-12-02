@@ -31,7 +31,7 @@ public class MessagingApiTest extends AbstractApiTest {
         mms.setPhoneNumbers(asList("1234567890", "2345678900", "3456789000"));
         mms.setSubject("test subject");
         mms.setMessage("this is mms message");
-        mms.setMessageType(MessageType.MMS);
+        mms.setDeliveryMethod(DeliveryMethod.MMS);
         Date now = new Date();
         mms.setStampToSend(now);
         SendMessageResponse response = client.messagingApi().send(mms);

@@ -3,6 +3,7 @@ package com.eztexting.api.client;
 import com.eztexting.api.client.api.common.model.EzTextingModel;
 import com.eztexting.api.client.api.common.model.QueryParamAsNumber;
 import com.eztexting.api.client.api.common.model.QueryParamIgnore;
+import com.eztexting.api.client.api.messaging.model.SimpleMessage;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
@@ -144,6 +145,8 @@ public final class ClientUtils {
             field.isAnnotationPresent(QueryParamAsNumber.class) &&
             field.getAnnotation(QueryParamAsNumber.class).enabled()) {
             return BooleanUtils.toIntegerObject((Boolean) value).toString();
+        } else if (value instanceof SimpleMessage) {
+            return ((SimpleMessage) value).getMessage();
         } else {
             return value.toString();
         }

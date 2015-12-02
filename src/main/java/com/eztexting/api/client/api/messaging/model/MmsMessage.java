@@ -5,7 +5,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 /**
  * MMS message to send
  */
-public class MmsMessage extends Message {
+public class MmsMessage extends AbstractMessage {
     private Long fileId;
 
     public Long getFileId() {

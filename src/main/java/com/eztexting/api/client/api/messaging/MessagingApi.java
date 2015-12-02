@@ -3,7 +3,7 @@ package com.eztexting.api.client.api.messaging;
 import com.eztexting.api.client.*;
 import com.eztexting.api.client.api.messaging.model.DeliveryReport;
 import com.eztexting.api.client.api.messaging.model.DeliveryStatus;
-import com.eztexting.api.client.api.messaging.model.Message;
+import com.eztexting.api.client.api.messaging.model.AbstractMessage;
 import com.eztexting.api.client.api.messaging.model.SendMessageResponse;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.NameValuePair;
@@ -41,7 +41,7 @@ public class MessagingApi {
      * @throws EzTextingApiException        in case HTTP response code is something different from codes listed above.
      * @throws EzTextingClientException     in case error has occurred in client.
      */
-    public SendMessageResponse send(Message message) {
+    public SendMessageResponse send(AbstractMessage message) {
         return client.post(MESSAGES_PATH, SendMessageResponse.class, message).getEntry();
     }
 

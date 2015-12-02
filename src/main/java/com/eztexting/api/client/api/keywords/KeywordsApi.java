@@ -46,7 +46,15 @@ public class KeywordsApi {
         Validate.notBlank(keyword, "keyword cannot be blank");
         List<NameValuePair> params = ClientUtils.asParams("Keyword", keyword);
         String path = StringUtils.replaceOnce(CHECK_AVAILABILITY_PATH, PLACEHOLDER, keyword);
-        return client.get(path, CheckAvailabilityResponse.class, params).getEntry().getAvailable();
+        // TODO remove block below after api fixes
+        try {
+            return client.get(path, CheckAvailabilityResponse.class, params).getEntry().getAvailable();
+        } catch (AccessForbiddenException e) {
+            if (e.getErrors().contains("Keyword: The keyword '" + keyword + "' is unavailable")) {
+                return false;
+            }
+            throw e;
+        }
     }
 
     /**
@@ -69,7 +77,7 @@ public class KeywordsApi {
         Validate.notBlank(keyword, "keyword cannot be blank");
         Validate.notBlank(ccNumber, "ccNumber cannot be blank");
         List<NameValuePair> params = ClientUtils.asParams("Keyword", keyword, "StoredCreditCard", ccNumber);
-        return client.post(KEYWORDS_PATH, Keyword.class, null, params).getEntry();
+        return client.post(KEYWORDS_PATH, Keyword.class, params).getEntry();
     }
 
     /**

@@ -6,6 +6,8 @@ import com.eztexting.api.client.api.keywords.model.CheckAvailabilityResponse;
 import com.eztexting.api.client.api.keywords.model.CreditCard;
 import com.eztexting.api.client.api.keywords.model.CreditCard.CreditCardType;
 import com.eztexting.api.client.api.keywords.model.Keyword;
+import com.eztexting.api.client.api.messaging.model.DeliveryMethod;
+import com.eztexting.api.client.api.messaging.model.SimpleMessage;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
@@ -114,7 +116,7 @@ public class KeywordsApiTest extends AbstractApiTest {
         assertThat(requestBody, containsString("Street=" + encode("Hollow tree, under the name of Mr. Sanders")));
         assertThat(requestBody, containsString("City=" + encode("Hundred Acre Woods")));
         assertThat(requestBody, containsString("State=" + encode("New York")));
-        assertThat(requestBody, containsString("ZIP=12345"));
+        assertThat(requestBody, containsString("Zip=12345"));
         assertThat(requestBody, containsString("Country=US"));
         assertThat(requestBody, containsString("CreditCardTypeID=Visa"));
         assertThat(requestBody, containsString("Number=4111111111111111"));
@@ -134,19 +136,27 @@ public class KeywordsApiTest extends AbstractApiTest {
 
     @Test
     public void setup() throws Exception {
-        String joinMsg = "The only reason for being a bee that I know of, is to make honey. And the only reason for making honey, is so as I can eat it.";
         String expectedJson = getJsonPayload("/keywords/keywordsApi/setup.json");
         ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(expectedJson);
+
+        SimpleMessage joinMsg = new SimpleMessage(DeliveryMethod.EXPRESS, "subject",
+            "Thank you for joining our text list. For Help Reply HELP. Msg&data rates may apply.");
+        SimpleMessage confirmMsg = new SimpleMessage(DeliveryMethod.EXPRESS, "subject",
+            "You already joined but thanks for texting in again.");
+        SimpleMessage alternateReply = new SimpleMessage(DeliveryMethod.EXPRESS,
+            "subject", "You already joined but thanks for texting in again.");
 
         Keyword keyword = new Keyword();
         keyword.setKeyword("NewKw");
         keyword.setId(147258369L);
         keyword.setEnableDoubleOptIn(true);
-        keyword.setConfirmMessage("Reply Y to join our sweetest list");
+        keyword.setEnableAlternateReply(true);
+        keyword.setConfirmMessage(confirmMsg);
         keyword.setJoinMessage(joinMsg);
+        keyword.setAlternateReply(alternateReply);
         keyword.setForwardEmail("honey@bear-alliance.co.uk");
         keyword.setForwardUrl("http://bear-alliance.co.uk/honey-donations/");
-        keyword.setContactGroups(Arrays.asList("honey lovers", "cars club"));
+        keyword.setContactGroups(Arrays.asList("Friends", "Family"));
         Keyword updated = client.keywordsApi().setup(keyword);
         EzTextingResponse<Keyword> ezResponse = new EzTextingResponse<>("Success", 200, updated);
         JSONAssert.assertEquals(expectedJson, jsonConverter.serialize(ezResponse), true);
@@ -159,12 +169,13 @@ public class KeywordsApiTest extends AbstractApiTest {
         assertThat(arg.getURI().toString(), containsString("/keywords/NewKw?"));
         assertThat(requestBody, containsString("Keyword=NewKw"));
         assertThat(requestBody, containsString("EnableDoubleOptIn=true"));
-        assertThat(requestBody, containsString("ConfirmMessage=" + encode("Reply Y to join our sweetest list")));
-        assertThat(requestBody, containsString("JoinMessage=" + encode(joinMsg)));
+        assertThat(requestBody, containsString("EnableAlternateReply=true"));
+        assertThat(requestBody, containsString("ConfirmMessage=" + encode(confirmMsg.getMessage())));
+        assertThat(requestBody, containsString("JoinMessage=" + encode(joinMsg.getMessage())));
         assertThat(requestBody, containsString("ForwardEmail=" + encode("honey@bear-alliance.co.uk")));
         assertThat(requestBody, containsString("ForwardUrl=" + encode("http://bear-alliance.co.uk/honey-donations/")));
-        assertThat(requestBody, containsString("ContactGroupIDs[]=" + encode("honey lovers")));
-        assertThat(requestBody, containsString("ContactGroupIDs[]=" + encode("cars club")));
+        assertThat(requestBody, containsString("ContactGroupIDs[]=Friends"));
+        assertThat(requestBody, containsString("ContactGroupIDs[]=Family"));
         assertThat(requestBody, containsString("User=login"));
         assertThat(requestBody, containsString("Password=password"));
     }

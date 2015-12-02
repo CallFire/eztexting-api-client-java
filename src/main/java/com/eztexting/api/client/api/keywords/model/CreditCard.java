@@ -10,7 +10,6 @@ public class CreditCard extends EzTextingModel {
     private String street;
     private String city;
     private String state;
-    @JsonProperty("ZIP")
     private String zip;
     private String country;
     @JsonProperty("CreditCardTypeID")

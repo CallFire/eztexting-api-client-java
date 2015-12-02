@@ -3,7 +3,7 @@ package com.eztexting.api.client;
 import com.eztexting.api.client.api.common.model.SortType;
 import com.eztexting.api.client.api.contacts.model.Contact;
 import com.eztexting.api.client.api.groups.model.GetGroupsRequest;
-import com.eztexting.api.client.api.messaging.model.MessageType;
+import com.eztexting.api.client.api.messaging.model.DeliveryMethod;
 import com.eztexting.api.client.api.messaging.model.MmsMessage;
 import org.junit.Test;
 
@@ -20,7 +20,7 @@ public class ClientUtilsTest {
     public void buildQueryParams() throws Exception {
         MmsMessage mms = new MmsMessage();
         mms.setFileId(123L);
-        mms.setMessageType(MessageType.MMS);
+        mms.setDeliveryMethod(DeliveryMethod.MMS);
         mms.setSubject("test subject");
         mms.setMessage("this is mms message");
         mms.setGroups(asList("group1", "group2", "group3"));

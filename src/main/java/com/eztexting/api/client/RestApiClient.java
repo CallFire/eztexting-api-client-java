@@ -168,25 +168,6 @@ public class RestApiClient {
     }
 
     /**
-     * Performs POST request to specified path with empty body
-     *
-     * @param path request path
-     * @param type return entity type
-     * @param <T>  return entity type
-     * @return pojo mapped from json
-     * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
-     * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
-     * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
-     * @throws ResourceNotFoundException    in case HTTP response code is 404 - NOT FOUND, the resource requested does not exist.
-     * @throws InternalServerErrorException in case HTTP response code is 500 - Internal Server Error.
-     * @throws EzTextingApiException        in case HTTP response code is something different from codes listed above.
-     * @throws EzTextingClientException     in case error has occurred in client.
-     */
-    public <T> EzTextingResponse<T> post(String path, Class<T> type) {
-        return post(path, type, null);
-    }
-
-    /**
      * Performs POST request with binary body to specified path
      *
      * @param path   request path
@@ -221,6 +202,25 @@ public class RestApiClient {
     }
 
     /**
+     * Performs POST request to specified path with empty body
+     *
+     * @param path request path
+     * @param type return entity type
+     * @param <T>  return entity type
+     * @return pojo mapped from json
+     * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
+     * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
+     * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
+     * @throws ResourceNotFoundException    in case HTTP response code is 404 - NOT FOUND, the resource requested does not exist.
+     * @throws InternalServerErrorException in case HTTP response code is 500 - Internal Server Error.
+     * @throws EzTextingApiException        in case HTTP response code is something different from codes listed above.
+     * @throws EzTextingClientException     in case error has occurred in client.
+     */
+    public <T> EzTextingResponse<T> post(String path, Class<T> type) {
+        return post(path, type, null, Collections.<NameValuePair>emptyList());
+    }
+
+    /**
      * Performs POST request with body to specified path
      *
      * @param path    request path
@@ -238,6 +238,26 @@ public class RestApiClient {
      */
     public <T> EzTextingResponse<T> post(String path, Class<T> type, EzTextingModel payload) {
         return post(path, type, payload, Collections.<NameValuePair>emptyList());
+    }
+
+    /**
+     * Performs POST request with body to specified path
+     *
+     * @param path   request path
+     * @param type   response entity type
+     * @param params additional request parameters
+     * @param <T>    response entity type
+     * @return pojo mapped from json
+     * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
+     * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
+     * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
+     * @throws ResourceNotFoundException    in case HTTP response code is 404 - NOT FOUND, the resource requested does not exist.
+     * @throws InternalServerErrorException in case HTTP response code is 500 - Internal Server Error.
+     * @throws EzTextingApiException        in case HTTP response code is something different from codes listed above.
+     * @throws EzTextingClientException     in case error has occurred in client.
+     */
+    public <T> EzTextingResponse<T> post(String path, Class<T> type, List<NameValuePair> params) {
+        return post(path, type, null, params);
     }
 
     /**
