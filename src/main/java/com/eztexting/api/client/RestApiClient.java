@@ -399,7 +399,10 @@ public class RestApiClient {
     @SuppressWarnings("unchecked")
     private void verifyResponse(int statusCode, String stringResponse) throws IOException {
         if (statusCode >= 400) {
-            List<String> errors = jsonConverter.deserialize(stringResponse, of(Object.class)).getErrors();
+            List<String> errors = Collections.EMPTY_LIST;
+            if (StringUtils.isNotBlank(stringResponse)) {
+                errors = jsonConverter.deserialize(stringResponse, of(Object.class)).getErrors();
+            }
             switch (statusCode) {
                 case 400:
                     throw new BadRequestException(errors);

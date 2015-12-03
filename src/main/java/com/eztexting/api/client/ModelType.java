@@ -2,6 +2,8 @@ package com.eztexting.api.client;
 
 import com.eztexting.api.client.api.common.model.EzTextingResponse;
 import com.eztexting.api.client.api.contacts.model.Contact;
+import com.eztexting.api.client.api.credits.model.BuyCreditsResponse;
+import com.eztexting.api.client.api.credits.model.CreditBalance;
 import com.eztexting.api.client.api.groups.model.Group;
 import com.eztexting.api.client.api.inbox.model.Folder;
 import com.eztexting.api.client.api.inbox.model.InboxMessage;
@@ -37,6 +39,8 @@ public final class ModelType {
         SIMPLE_TYPES.put(Group.class, new TypeReference<EzTextingResponse<Group>>() {});
         SIMPLE_TYPES.put(Contact.class, new TypeReference<EzTextingResponse<Contact>>() {});
         SIMPLE_TYPES.put(DeliveryReport.class, new TypeReference<EzTextingResponse<DeliveryReport>>() {});
+        SIMPLE_TYPES.put(CreditBalance.class, new TypeReference<EzTextingResponse<CreditBalance>>() {});
+        SIMPLE_TYPES.put(BuyCreditsResponse.class, new TypeReference<EzTextingResponse<BuyCreditsResponse>>() {});
         SIMPLE_TYPES.put(SendMessageResponse.class, new TypeReference<EzTextingResponse<SendMessageResponse>>() {});
         SIMPLE_TYPES.put(CheckAvailabilityResponse.class, new TypeReference<EzTextingResponse<CheckAvailabilityResponse>>() {});
         // @formatter:on

@@ -1,11 +1,12 @@
 package com.eztexting.api.client;
 
 import com.eztexting.api.client.api.contacts.ContactsApi;
+import com.eztexting.api.client.api.credits.CreditsApi;
 import com.eztexting.api.client.api.groups.GroupsApi;
 import com.eztexting.api.client.api.inbox.InboxApi;
 import com.eztexting.api.client.api.keywords.KeywordsApi;
-import com.eztexting.api.client.auth.RequestParamAuth;
 import com.eztexting.api.client.api.messaging.MessagingApi;
+import com.eztexting.api.client.auth.RequestParamAuth;
 
 import java.io.IOException;
 import java.util.Properties;
@@ -58,6 +59,7 @@ public class EzTextingClient {
 
     private MessagingApi messagingApi;
     private InboxApi inboxApi;
+    private CreditsApi creditsApi;
     private KeywordsApi keywordsApi;
     private ContactsApi contactsApi;
     private GroupsApi groupsApi;
@@ -112,6 +114,18 @@ public class EzTextingClient {
             inboxApi = new InboxApi(restApiClient);
         }
         return inboxApi;
+    }
+
+    /**
+     * Get credits APIs for check balance, buy more credits operations
+     *
+     * @return endpoint object
+     */
+    public CreditsApi creditsApi() {
+        if (creditsApi == null) {
+            creditsApi = new CreditsApi(restApiClient);
+        }
+        return creditsApi;
     }
 
     /**

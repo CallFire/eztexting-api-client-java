@@ -2,7 +2,7 @@ package com.eztexting.api.client.api.keywords;
 
 import com.eztexting.api.client.*;
 import com.eztexting.api.client.api.keywords.model.CheckAvailabilityResponse;
-import com.eztexting.api.client.api.keywords.model.CreditCard;
+import com.eztexting.api.client.api.credits.model.CreditCard;
 import com.eztexting.api.client.api.keywords.model.Keyword;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;

@@ -1,23 +1,23 @@
-package com.eztexting.api.client.api.keywords.model;
+package com.eztexting.api.client.api.credits.model;
 
 import com.eztexting.api.client.api.common.model.EzTextingModel;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 public class CreditCard extends EzTextingModel {
-    private String firstName;
-    private String lastName;
-    private String street;
-    private String city;
-    private String state;
-    private String zip;
-    private String country;
+    protected String firstName;
+    protected String lastName;
+    protected String street;
+    protected String city;
+    protected String state;
+    protected String zip;
+    protected String country;
     @JsonProperty("CreditCardTypeID")
-    private CreditCardType type;
-    private String number;
-    private String securityCode;
-    private String expirationMonth;
-    private String expirationYear;
+    protected CreditCardType type;
+    protected String number;
+    protected String securityCode;
+    protected String expirationMonth;
+    protected String expirationYear;
 
     public enum CreditCardType {
         AMEX("Amex"), DISCOVER("Discover"), MASTERCARD("MasterCard"), VISA("Visa");

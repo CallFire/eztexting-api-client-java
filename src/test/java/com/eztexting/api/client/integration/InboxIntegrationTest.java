@@ -1,10 +1,16 @@
 package com.eztexting.api.client.integration;
 
 import com.eztexting.api.client.ResourceNotFoundException;
+import com.eztexting.api.client.api.common.model.SortType;
 import com.eztexting.api.client.api.inbox.model.Folder;
+import com.eztexting.api.client.api.inbox.model.GetMessagesRequest;
+import com.eztexting.api.client.api.inbox.model.GetMessagesRequest.SortProperty;
+import com.eztexting.api.client.api.inbox.model.InboxMessage;
+import com.eztexting.api.client.api.inbox.model.InboxMessage.MessageType;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -12,24 +18,45 @@ import static org.junit.Assert.assertEquals;
 @Ignore
 public class InboxIntegrationTest extends AbstractIntegrationTest {
 
+    public static final long FRIENDS_FOLDER_ID = 5431L;
+    public static final long TEST_FOLDER_ID = 5425L;
+    public static final long INBOX_MSG_ID = 15168146L;
+
     @Test
     public void moveMessage() throws Exception {
-        // TODO
+        client.inboxApi().moveMessage(INBOX_MSG_ID, FRIENDS_FOLDER_ID);
+    }
+
+    @Test
+    public void moveMessages() throws Exception {
+        client.inboxApi().moveMessages(Arrays.asList(INBOX_MSG_ID), TEST_FOLDER_ID);
     }
 
     @Test
     public void getMessages() throws Exception {
-        // TODO
+        GetMessagesRequest request = GetMessagesRequest.create()
+            .sortBy(SortProperty.RECEIVED_ON)
+            .folder(5656L)
+            .search("")
+            .messageType(MessageType.SMS)
+            .sortType(SortType.ASC)
+            .itemsPerPage(5)
+            .page(0)
+            .build();
+
+        List<InboxMessage> messages = client.inboxApi().getMessages(request);
+        System.out.println("inbox messages: " + messages);
     }
 
     @Test
     public void getMessage() throws Exception {
-        // TODO
+        InboxMessage message = client.inboxApi().getMessage(15168146L);
+        System.out.println("inbox message: " + message);
     }
 
     @Test
     public void deleteMessage() throws Exception {
-        // TODO
+        client.inboxApi().deleteMessage(123L);
     }
 
     @Test

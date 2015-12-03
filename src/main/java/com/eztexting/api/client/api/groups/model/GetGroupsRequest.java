@@ -22,7 +22,7 @@ public class GetGroupsRequest extends EzTextingModel {
     /**
      * Create request builder
      *
-     * @return request build
+     * @return request builder
      */
     public static Builder create() {
         return new Builder();

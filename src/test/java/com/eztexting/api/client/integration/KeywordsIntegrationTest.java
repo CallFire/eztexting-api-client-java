@@ -1,7 +1,7 @@
 package com.eztexting.api.client.integration;
 
 import com.eztexting.api.client.AccessForbiddenException;
-import com.eztexting.api.client.api.keywords.model.CreditCard;
+import com.eztexting.api.client.api.credits.model.CreditCard;
 import com.eztexting.api.client.api.keywords.model.Keyword;
 import com.eztexting.api.client.api.messaging.model.DeliveryMethod;
 import com.eztexting.api.client.api.messaging.model.SimpleMessage;

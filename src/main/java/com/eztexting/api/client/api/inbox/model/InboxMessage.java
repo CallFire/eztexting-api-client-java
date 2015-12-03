@@ -1,10 +1,7 @@
 package com.eztexting.api.client.api.inbox.model;
 
 import com.eztexting.api.client.api.messaging.model.SimpleMessage;
-import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonSetter;
-import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.util.Date;
@@ -19,8 +16,11 @@ public class InboxMessage extends SimpleMessage {
     private String phoneNumber;
     private MessageType type;
     private List<String> files;
+    @JsonProperty("New")
     private Boolean unread;
-    private String folderId;
+    @JsonProperty("FolderID")
+    private Long folderId;
+    @JsonProperty("ContactID")
     private String contactId;
     private Date receivedOn;
 
@@ -30,16 +30,6 @@ public class InboxMessage extends SimpleMessage {
 
     public Long getId() {
         return id;
-    }
-
-    @JsonSetter("New")
-    private void setUnread(Integer unread) {
-        this.unread = BooleanUtils.toBooleanObject(unread);
-    }
-
-    @JsonGetter("New")
-    private Integer getUnread() {
-        return BooleanUtils.toIntegerObject(unread);
     }
 
     public String getPhoneNumber() {
@@ -58,7 +48,7 @@ public class InboxMessage extends SimpleMessage {
         return unread;
     }
 
-    public String getFolderId() {
+    public Long getFolderId() {
         return folderId;
     }
 

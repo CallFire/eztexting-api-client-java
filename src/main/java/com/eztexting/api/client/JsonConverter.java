@@ -23,6 +23,7 @@ public class JsonConverter {
 
     public JsonConverter() {
         mapper = new ObjectMapper();
+        // TODO disable before release
         mapper.enable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
 
         mapper.disable(SerializationFeature.WRITE_EMPTY_JSON_ARRAYS);
