@@ -5,7 +5,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 /**
  * SMS message to send
  */
-public class SmsMessage extends Message {
+public class SmsMessage extends AbstractMessage {
 
     @Override
     public String toString() {

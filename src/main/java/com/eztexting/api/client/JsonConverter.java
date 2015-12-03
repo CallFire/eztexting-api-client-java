@@ -23,6 +23,7 @@ public class JsonConverter {
 
     public JsonConverter() {
         mapper = new ObjectMapper();
+        // TODO disable before release
         mapper.enable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
 
         mapper.disable(SerializationFeature.WRITE_EMPTY_JSON_ARRAYS);
@@ -31,6 +32,8 @@ public class JsonConverter {
         mapper.setDateFormat(new SimpleDateFormat(ClientConstants.DATE_FORMAT_PATTERN));
         mapper.setPropertyNamingStrategy(PropertyNamingStrategy.PASCAL_CASE_TO_CAMEL_CASE);
         mapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
+        mapper.setVisibility(PropertyAccessor.GETTER, JsonAutoDetect.Visibility.ANY);
+        mapper.setVisibility(PropertyAccessor.SETTER, JsonAutoDetect.Visibility.ANY);
 
         mapper.setTimeZone(TimeZone.getTimeZone("UTC"));
     }

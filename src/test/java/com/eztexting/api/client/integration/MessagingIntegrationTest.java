@@ -17,7 +17,7 @@ public class MessagingIntegrationTest extends AbstractIntegrationTest {
         SmsMessage msg = new SmsMessage();
         msg.setMessage("my test message");
         msg.setSubject("msg subject");
-        msg.setMessageType(MessageType.STANDARD);
+        msg.setDeliveryMethod(DeliveryMethod.STANDARD);
         msg.setPhoneNumbers(Arrays.asList("6508926110", "6508926110"));
         msg.setStampToSend(DateUtils.addMinutes(new Date(), 5));
 
