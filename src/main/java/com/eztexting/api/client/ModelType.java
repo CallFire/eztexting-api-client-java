@@ -9,8 +9,8 @@ import com.eztexting.api.client.api.inbox.model.Folder;
 import com.eztexting.api.client.api.inbox.model.InboxMessage;
 import com.eztexting.api.client.api.keywords.model.CheckAvailabilityResponse;
 import com.eztexting.api.client.api.keywords.model.Keyword;
-import com.eztexting.api.client.api.messaging.model.DeliveryReport;
-import com.eztexting.api.client.api.messaging.model.SendMessageResponse;
+import com.eztexting.api.client.api.messaging.model.*;
+import com.eztexting.api.client.api.toolbox.model.CarrierLookupResponse;
 import com.fasterxml.jackson.core.type.TypeReference;
 
 import java.util.HashMap;
@@ -41,7 +41,10 @@ public final class ModelType {
         SIMPLE_TYPES.put(DeliveryReport.class, new TypeReference<EzTextingResponse<DeliveryReport>>() {});
         SIMPLE_TYPES.put(CreditBalance.class, new TypeReference<EzTextingResponse<CreditBalance>>() {});
         SIMPLE_TYPES.put(BuyCreditsResponse.class, new TypeReference<EzTextingResponse<BuyCreditsResponse>>() {});
-        SIMPLE_TYPES.put(SendMessageResponse.class, new TypeReference<EzTextingResponse<SendMessageResponse>>() {});
+        SIMPLE_TYPES.put(SmsMessage.class, new TypeReference<EzTextingResponse<SmsMessage>>() {});
+        SIMPLE_TYPES.put(MmsMessage.class, new TypeReference<EzTextingResponse<MmsMessage>>() {});
+        SIMPLE_TYPES.put(VoiceMessage.class, new TypeReference<EzTextingResponse<VoiceMessage>>() {});
+        SIMPLE_TYPES.put(CarrierLookupResponse.class, new TypeReference<EzTextingResponse<CarrierLookupResponse>>() {});
         SIMPLE_TYPES.put(CheckAvailabilityResponse.class, new TypeReference<EzTextingResponse<CheckAvailabilityResponse>>() {});
         // @formatter:on
     }

@@ -367,8 +367,8 @@ public class RestApiClient {
     }
 
     @SuppressWarnings("unchecked")
-    private <T> EzTextingResponse<T> doRequest(RequestBuilder requestBuilder, Class<T> type) throws
-        IOException {
+    private <T> EzTextingResponse<T> doRequest(RequestBuilder requestBuilder, Class<T> type)
+        throws IOException {
         for (RequestFilter filter : filters) {
             filter.filter(requestBuilder);
         }

@@ -6,6 +6,7 @@ import com.eztexting.api.client.api.groups.GroupsApi;
 import com.eztexting.api.client.api.inbox.InboxApi;
 import com.eztexting.api.client.api.keywords.KeywordsApi;
 import com.eztexting.api.client.api.messaging.MessagingApi;
+import com.eztexting.api.client.api.toolbox.ToolboxApi;
 import com.eztexting.api.client.auth.RequestParamAuth;
 
 import java.io.IOException;
@@ -63,6 +64,7 @@ public class EzTextingClient {
     private KeywordsApi keywordsApi;
     private ContactsApi contactsApi;
     private GroupsApi groupsApi;
+    private ToolboxApi toolboxApi;
 
     /**
      * Constructs callfire client
@@ -162,6 +164,18 @@ public class EzTextingClient {
             groupsApi = new GroupsApi(restApiClient);
         }
         return groupsApi;
+    }
+
+    /**
+     * Get toolbox APIs
+     *
+     * @return endpoint object
+     */
+    public ToolboxApi toolboxApi() {
+        if (toolboxApi == null) {
+            toolboxApi = new ToolboxApi(restApiClient);
+        }
+        return toolboxApi;
     }
 
     private static void loadConfig() {
