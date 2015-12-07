@@ -29,6 +29,7 @@ public class ContactsApi {
      * Create a new contact that will be stored in your Ez Texting account
      *
      * @param contact contact to create
+     * @return created contact
      * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
      * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
      * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
@@ -45,6 +46,7 @@ public class ContactsApi {
      * Update a contact that is stored in your Ez Texting account
      *
      * @param contact contact to update
+     * @return updated contact
      * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
      * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
      * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
@@ -63,6 +65,7 @@ public class ContactsApi {
      * Get a single contact stored in your Ez Texting account.
      *
      * @param id contact's id
+     * @return single contact
      * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
      * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
      * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
@@ -80,6 +83,7 @@ public class ContactsApi {
      * Get a list of contacts stored in your Ez Texting account.
      *
      * @param request request object with sorting and pagination options
+     * @return contacts that were found
      * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
      * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
      * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.

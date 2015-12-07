@@ -25,10 +25,10 @@ public class ToolboxApi {
     }
 
     /**
-     * Get the wireless carrier of a valid mobile phone number (US & Canada)
+     * Get the wireless carrier of a valid mobile phone number (US and Canada)
      *
      * @param phoneNumber phone number
-     * @return the wireless carrier of a valid mobile phone number (US & Canada)
+     * @return the wireless carrier of a valid mobile phone number (US and Canada)
      * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
      * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
      * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.

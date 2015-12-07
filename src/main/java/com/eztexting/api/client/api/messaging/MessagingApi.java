@@ -31,6 +31,7 @@ public class MessagingApi {
      * Sends SMS/MMS messages via the short code 313131 (393939 In Canada) to a single phone number or an array of phone numbers.
      *
      * @param message message to send
+     * @param <T>     message type
      * @return created message with additional info
      * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
      * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.

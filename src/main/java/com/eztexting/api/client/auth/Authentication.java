@@ -7,7 +7,7 @@ public interface Authentication {
     /**
      * Get authentication info as key-value string
      *
-     * @return string like "User=${username}&Password=${password}"
+     * @return string like "User=${username}&amp;Password=${password}"
      */
     String asParamString();
 }

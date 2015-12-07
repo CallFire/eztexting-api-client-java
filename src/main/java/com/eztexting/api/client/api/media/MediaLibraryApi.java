@@ -30,6 +30,7 @@ public class MediaLibraryApi {
      * Create a new contact that will be stored in your Ez Texting media library
      *
      * @param url url to download file
+     * @return created media file object
      * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
      * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
      * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
@@ -47,6 +48,7 @@ public class MediaLibraryApi {
      * Get a single file stored in your Ez Texting media library.
      *
      * @param id file's id
+     * @return single media file
      * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
      * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
      * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
@@ -65,6 +67,7 @@ public class MediaLibraryApi {
      * Get a list of groups stored in your Ez Texting account.
      *
      * @param request request object with sorting and pagination options
+     * @return multiple media files
      * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
      * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
      * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.

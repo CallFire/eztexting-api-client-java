@@ -92,7 +92,7 @@ tasks.withType(Jar) {
             'Implementation-Build-Number': buildNumber(),
             'Implementation-Vendor': 'Callfire, Inc.',
             'Implementation-Build-Date': new Date().format('yyyy-MM-dd'),
-            'Documentation': 'https://developers.callfire.com',
+            'Documentation': 'https://www.eztexting.com/developers',
             'Repository': 'https://github.com/CallFire/eztexting-api-client-java'
         )
     }
