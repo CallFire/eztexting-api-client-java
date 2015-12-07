@@ -29,6 +29,7 @@ public class GroupsApi {
      * Create a new group that will be stored in your Ez Texting account
      *
      * @param group group to create
+     * @return created group
      * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
      * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
      * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
@@ -45,6 +46,7 @@ public class GroupsApi {
      * Update a group that is stored in your Ez Texting account
      *
      * @param group group to update
+     * @return updated group
      * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
      * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
      * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
@@ -63,6 +65,7 @@ public class GroupsApi {
      * Get a single group stored in your Ez Texting account.
      *
      * @param id group's id
+     * @return particular group
      * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
      * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
      * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
@@ -81,6 +84,7 @@ public class GroupsApi {
      * Get a list of groups stored in your Ez Texting account.
      *
      * @param request request object with sorting and pagination options
+     * @return group that were found
      * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
      * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
      * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.

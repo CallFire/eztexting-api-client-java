@@ -8,15 +8,15 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
  * Basic message with subject, message itself and type
  */
 public class SimpleMessage extends EzTextingModel {
-    private String subject;
-    private String message;
+    protected String subject;
+    protected String message;
     @JsonProperty("MessageTypeID")
-    private DeliveryMethod deliveryMethod;
+    protected DeliveryMethod deliveryMethod;
 
     public SimpleMessage() {
     }
 
-    public SimpleMessage(DeliveryMethod deliveryMethod, String subject, String message) {
+    public SimpleMessage( DeliveryMethod deliveryMethod, String subject, String message) {
         this.deliveryMethod = deliveryMethod;
         this.subject = subject;
         this.message = message;

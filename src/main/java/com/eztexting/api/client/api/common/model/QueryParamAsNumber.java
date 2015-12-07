@@ -6,7 +6,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Converts annotated field to number if possible, e.g. true -> 1, false -> 0
+ * Converts annotated field to number if possible, e.g. true: 1, false: 0
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)

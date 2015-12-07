@@ -147,6 +147,7 @@ public class RestApiClient {
      * @param path    request path
      * @param type    return entity type
      * @param request query request
+     * @param params  additional name-value parameters
      * @param <T>     return entity type
      * @return pojo mapped from json
      * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
@@ -367,8 +368,8 @@ public class RestApiClient {
     }
 
     @SuppressWarnings("unchecked")
-    private <T> EzTextingResponse<T> doRequest(RequestBuilder requestBuilder, Class<T> type) throws
-        IOException {
+    private <T> EzTextingResponse<T> doRequest(RequestBuilder requestBuilder, Class<T> type)
+        throws IOException {
         for (RequestFilter filter : filters) {
             filter.filter(requestBuilder);
         }

@@ -40,6 +40,7 @@ public class CreditsApi {
      * Buys more credits for your account. You may purchase credits using a credit card you have stored in your
      * Ez Texting account, or you may pass credit card details when you call the API.
      *
+     * @param request request object
      * @return amount spent and credit balance
      * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
      * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.

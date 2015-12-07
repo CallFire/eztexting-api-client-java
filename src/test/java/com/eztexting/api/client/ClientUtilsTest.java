@@ -31,7 +31,7 @@ public class ClientUtilsTest {
 
         System.out.println("params: " + queryParams);
 
-        assertThat(queryParams, containsString("FileId=123"));
+        assertThat(queryParams, containsString("FileID=123"));
         assertThat(queryParams, containsString("Groups[]=group1"));
         assertThat(queryParams, containsString("Groups[]=group2"));
         assertThat(queryParams, containsString("Groups[]=group3"));

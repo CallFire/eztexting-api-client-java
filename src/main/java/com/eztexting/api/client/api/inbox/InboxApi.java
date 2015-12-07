@@ -52,6 +52,7 @@ public class InboxApi {
     /**
      * Get all incoming text messages in your Ez Texting Inbox
      *
+     * @param request request with filtering fields
      * @return list with messages
      * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
      * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.

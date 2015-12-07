@@ -5,6 +5,7 @@ import com.eztexting.api.client.api.common.model.QueryParamAsNumber;
 import com.eztexting.api.client.api.common.model.QueryParamIgnore;
 import com.eztexting.api.client.api.messaging.model.SimpleMessage;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import org.apache.commons.lang3.BooleanUtils;
@@ -77,6 +78,11 @@ public final class ClientUtils {
             return;
         }
         Object value = field.get(request);
+        if (field.isAnnotationPresent(JsonUnwrapped.class) &&
+            field.getAnnotation(JsonUnwrapped.class).enabled() && value != null) {
+            readFields(value, params, field.getType());
+            return;
+        }
         if (value != null) {
             String paramName = getParamName(field, jsonNaming);
             if (value instanceof Collection) {
