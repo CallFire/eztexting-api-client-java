@@ -9,6 +9,7 @@ import com.eztexting.api.client.api.inbox.model.Folder;
 import com.eztexting.api.client.api.inbox.model.InboxMessage;
 import com.eztexting.api.client.api.keywords.model.CheckAvailabilityResponse;
 import com.eztexting.api.client.api.keywords.model.Keyword;
+import com.eztexting.api.client.api.media.model.MediaFile;
 import com.eztexting.api.client.api.messaging.model.*;
 import com.eztexting.api.client.api.toolbox.model.CarrierLookupResponse;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -38,6 +39,7 @@ public final class ModelType {
         SIMPLE_TYPES.put(Keyword.class, new TypeReference<EzTextingResponse<Keyword>>() {});
         SIMPLE_TYPES.put(Group.class, new TypeReference<EzTextingResponse<Group>>() {});
         SIMPLE_TYPES.put(Contact.class, new TypeReference<EzTextingResponse<Contact>>() {});
+        SIMPLE_TYPES.put(MediaFile.class, new TypeReference<EzTextingResponse<MediaFile>>() {});
         SIMPLE_TYPES.put(DeliveryReport.class, new TypeReference<EzTextingResponse<DeliveryReport>>() {});
         SIMPLE_TYPES.put(CreditBalance.class, new TypeReference<EzTextingResponse<CreditBalance>>() {});
         SIMPLE_TYPES.put(BuyCreditsResponse.class, new TypeReference<EzTextingResponse<BuyCreditsResponse>>() {});

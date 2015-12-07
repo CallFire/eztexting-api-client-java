@@ -5,6 +5,7 @@ import com.eztexting.api.client.api.credits.CreditsApi;
 import com.eztexting.api.client.api.groups.GroupsApi;
 import com.eztexting.api.client.api.inbox.InboxApi;
 import com.eztexting.api.client.api.keywords.KeywordsApi;
+import com.eztexting.api.client.api.media.MediaLibraryApi;
 import com.eztexting.api.client.api.messaging.MessagingApi;
 import com.eztexting.api.client.api.toolbox.ToolboxApi;
 import com.eztexting.api.client.auth.RequestParamAuth;
@@ -64,6 +65,7 @@ public class EzTextingClient {
     private KeywordsApi keywordsApi;
     private ContactsApi contactsApi;
     private GroupsApi groupsApi;
+    private MediaLibraryApi mediaLibraryApi;
     private ToolboxApi toolboxApi;
 
     /**
@@ -164,6 +166,18 @@ public class EzTextingClient {
             groupsApi = new GroupsApi(restApiClient);
         }
         return groupsApi;
+    }
+
+    /**
+     * Get media library APIs for managing your media files
+     *
+     * @return endpoint object
+     */
+    public MediaLibraryApi mediaLibraryApi() {
+        if (mediaLibraryApi == null) {
+            mediaLibraryApi = new MediaLibraryApi(restApiClient);
+        }
+        return mediaLibraryApi;
     }
 
     /**
