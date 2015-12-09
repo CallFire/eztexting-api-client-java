@@ -95,7 +95,7 @@ public class MessagingApi {
      *
      * @param id     message id
      * @param status delivery status to sort by
-     * @return delivery report
+     * @return list of possible phone numbers which have given status
      * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
      * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
      * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
