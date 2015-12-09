@@ -2,6 +2,7 @@ package com.eztexting.api.client.integration;
 
 import com.eztexting.api.client.api.credits.model.BuyCreditsRequest;
 import com.eztexting.api.client.api.credits.model.BuyCreditsResponse;
+import com.eztexting.api.client.api.credits.model.CreditBalance;
 import com.eztexting.api.client.api.credits.model.CreditCard.CreditCardType;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -11,7 +12,8 @@ public class CreditsIntegrationTest extends AbstractIntegrationTest {
 
     @Test
     public void checkBalance() throws Exception {
-        System.out.println("balance: " + client.creditsApi().checkBalance());
+        CreditBalance balance = client.creditsApi().checkBalance();
+        System.out.println("balance: " + balance);
     }
 
     @Test

@@ -14,7 +14,7 @@ public class KeywordsIntegrationTest extends AbstractIntegrationTest {
     @Test
     public void checkAvailability() throws Exception {
         System.out.println("EZAYW69417: " + client.keywordsApi().checkAvailability("EZAYW69417"));
-        System.out.println("Superman: " + client.keywordsApi().checkAvailability("Superman"));
+        System.out.println("Superman: " +  client.keywordsApi().checkAvailability("Superman"));
     }
 
     @Test

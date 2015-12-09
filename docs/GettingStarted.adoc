@@ -47,22 +47,29 @@ it will create 4 jars in *build/libs* directory:
 
 
 == Overview
-To create client instance just provide API login and password. API credentials should be configured on account page.
-Client uses HTTPS connection.
+To create client instance just provide your account's login and password. Client uses HTTPS connection.
 
-Example how to get account information using client:
+Example how to get your account's credit balance:
 [source,java]
 public class TestEzTextingApi {
     public static void main(String[] args) {
         EzTextingClient client = new EzTextingClient("api_login", "api_password");
-
+        CreditBalance balance = client.creditsApi().checkBalance();
+        System.out.println("balance: " + balance);
     }
 }
 
 .*List of API classes:*
 [source,java]
     EzTextingClient client = new EzTextingClient("api_login", "api_password");
-    client.messagingApi();
+    client.contactsApi(); - add/get/update/delete contacts
+    client.creditsApi(); - check balance, buy credits
+    client.groupsApi(); - managing contact groups
+    client.inboxApi(); - managing your inbox messages and folders
+    client.keywordsApi(); - check availability, rent a keyword
+    client.mediaLibraryApi(); - managing Media Library files
+    client.messagingApi(); - send SMS/MMS/Voice broadcast messages
+    client.toolboxApi(); - different helpful APIs, currently it only has a Carrier Lookup operation.
 
 
 == Error handling
@@ -91,6 +98,7 @@ Codes in the 500s range are error responses from the EzTexting system. If an err
 
 *EzTextingApiException* has *errors* property with details why errors has occurred.
 
+==== NOTE. Currently some APIs return incorrect response codes, e.g. 403 instead of 400 or 404, this leads to wrong exception. We are working on API fixes.
 
 == Debug & logging
 In case you want to see requests/responses which client sends/receives from EzTexting platform you should set *DEBUG*
@@ -103,12 +111,12 @@ level for *com.eztexting* package, then you'll see something like that in your l
 		"Status":"Success",
 		"Code":200,
 		"Entry": {
-			"TYPE":SMS,
+			"TYPE":"SMS",
 			"ID":123,
 			"PhoneNumber":"3312943691",
 			"Subject":"",
 			"Message":"test",
-			"New":"0",
+			"New":true,
 			"FolderID":"13",
 			"ContactID":"",
 			"ReceivedOn":"10-04-2012 9:06 AM"
