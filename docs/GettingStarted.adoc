@@ -8,7 +8,7 @@ repositories {
     jcenter()
 }
 dependencies {
-    compile 'com.eztexting:eztexting-api-client:1.0.0'
+    compile 'com.eztexting:eztexting-api-client:1.1.0'
 }
 
 for Maven build add following lines to your pom xml:
@@ -26,7 +26,7 @@ for Maven build add following lines to your pom xml:
     <dependency>
         <groupId>com.eztexting</groupId>
         <artifactId>eztexting-api-client</artifactId>
-        <version>1.0.0</version>
+        <version>1.1.0</version>
     </dependency>
 </dependencies>
 
@@ -47,7 +47,8 @@ it will create 4 jars in *build/libs* directory:
 
 
 == Overview
-To create client instance just provide your account's login and password. Client uses HTTPS connection.
+To create client instance just provide your account's login and password. Client uses HTTPS connection. By default it
+connects to EzTexting site, but you can specify any other related brand: ClubTexting, GroupTexting, TellMyCell, etc.
 
 Example how to get your account's credit balance:
 [source,java]
@@ -87,14 +88,7 @@ Codes in the 500s range are error responses from the EzTexting system. If an err
 
 .All API methods throw following exceptions (all are RuntimeException):
  * *EzTextingClientException* - in case error has occurred in client
- * *EzTextingApiException* - in case API cannot be queried for some reason and server returned error (this is the base
- exception for API errors, some specific HTTP codes have their own exception):
- ** *400 - BadRequestException* - The request was formatted improperly
- ** *401 - UnauthorizedException* - API Key missing or invalid
- ** *403 - AccessForbiddenException* - Insufficient permissions
- ** *404 - ResourceNotFoundException* - The resource requested does not exist
- ** *500 - InternalServerErrorException* - We had an error! Sorry about that.
- ** other error codes will throw EzTextingApiException
+ * *EzTextingApiException* - in case API cannot be queried for some reason and server returned error
 
 *EzTextingApiException* has *errors* property with details why errors has occurred.
 

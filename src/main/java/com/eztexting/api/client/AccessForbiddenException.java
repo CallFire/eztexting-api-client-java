@@ -11,7 +11,7 @@ import java.util.List;
  */
 public class AccessForbiddenException extends EzTextingApiException {
     public AccessForbiddenException(List<String> errors) {
-        super(errors);
+        super(403, errors);
     }
 
     @Override

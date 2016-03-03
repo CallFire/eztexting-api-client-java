@@ -1,8 +1,11 @@
 package com.eztexting.api.client.api.keywords;
 
-import com.eztexting.api.client.*;
-import com.eztexting.api.client.api.keywords.model.CheckAvailabilityResponse;
+import com.eztexting.api.client.ClientUtils;
+import com.eztexting.api.client.EzTextingApiException;
+import com.eztexting.api.client.EzTextingClientException;
+import com.eztexting.api.client.RestApiClient;
 import com.eztexting.api.client.api.credits.model.CreditCard;
+import com.eztexting.api.client.api.keywords.model.CheckAvailabilityResponse;
 import com.eztexting.api.client.api.keywords.model.Keyword;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
@@ -34,22 +37,17 @@ public class KeywordsApi {
      *
      * @param keyword keyword to check
      * @return true if keyword is available to rent, otherwise false returned
-     * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
-     * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
-     * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
-     * @throws ResourceNotFoundException    in case HTTP response code is 404 - NOT FOUND, the resource requested does not exist.
-     * @throws InternalServerErrorException in case HTTP response code is 500 - Internal Server Error.
-     * @throws EzTextingApiException        in case HTTP response code is something different from codes listed above.
-     * @throws EzTextingClientException     in case error has occurred in client.
+     * @throws EzTextingApiException    in case error has occurred on server side, check provided error description.
+     * @throws EzTextingClientException in case error has occurred in client.
      */
     public Boolean checkAvailability(String keyword) {
         Validate.notBlank(keyword, "keyword cannot be blank");
         List<NameValuePair> params = ClientUtils.asParams("Keyword", keyword);
         String path = StringUtils.replaceOnce(CHECK_AVAILABILITY_PATH, PLACEHOLDER, keyword);
-        // TODO remove block below after api fixes
         try {
             return client.get(path, CheckAvailabilityResponse.class, params).getEntry().getAvailable();
-        } catch (AccessForbiddenException e) {
+            // TODO remove block below after api fixes
+        } catch (EzTextingApiException e) {
             if (e.getErrors().contains("Keyword: The keyword '" + keyword + "' is unavailable")) {
                 return false;
             }
@@ -65,13 +63,8 @@ public class KeywordsApi {
      * @param keyword  keyword for rent
      * @param ccNumber last four digits of any card stored in your Ez Texting account.
      * @return keyword
-     * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
-     * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
-     * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
-     * @throws ResourceNotFoundException    in case HTTP response code is 404 - NOT FOUND, the resource requested does not exist.
-     * @throws InternalServerErrorException in case HTTP response code is 500 - Internal Server Error.
-     * @throws EzTextingApiException        in case HTTP response code is something different from codes listed above.
-     * @throws EzTextingClientException     in case error has occurred in client.
+     * @throws EzTextingApiException    in case error has occurred on server side, check provided error description.
+     * @throws EzTextingClientException in case error has occurred in client.
      */
     public Keyword rent(String keyword, String ccNumber) {
         Validate.notBlank(keyword, "keyword cannot be blank");
@@ -88,13 +81,8 @@ public class KeywordsApi {
      * @param keyword    keyword for rent
      * @param creditCard credit card for payment
      * @return keyword
-     * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
-     * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
-     * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
-     * @throws ResourceNotFoundException    in case HTTP response code is 404 - NOT FOUND, the resource requested does not exist.
-     * @throws InternalServerErrorException in case HTTP response code is 500 - Internal Server Error.
-     * @throws EzTextingApiException        in case HTTP response code is something different from codes listed above.
-     * @throws EzTextingClientException     in case error has occurred in client.
+     * @throws EzTextingApiException    in case error has occurred on server side, check provided error description.
+     * @throws EzTextingClientException in case error has occurred in client.
      */
     public Keyword rent(String keyword, CreditCard creditCard) {
         Validate.notBlank(keyword, "keyword cannot be blank");
@@ -108,13 +96,8 @@ public class KeywordsApi {
      *
      * @param keyword keyword
      * @return updated keyword
-     * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
-     * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
-     * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
-     * @throws ResourceNotFoundException    in case HTTP response code is 404 - NOT FOUND, the resource requested does not exist.
-     * @throws InternalServerErrorException in case HTTP response code is 500 - Internal Server Error.
-     * @throws EzTextingApiException        in case HTTP response code is something different from codes listed above.
-     * @throws EzTextingClientException     in case error has occurred in client.
+     * @throws EzTextingApiException    in case error has occurred on server side, check provided error description.
+     * @throws EzTextingClientException in case error has occurred in client.
      */
     public Keyword setup(Keyword keyword) {
         Validate.notBlank(keyword.getKeyword(), "keyword cannot be blank");
@@ -126,13 +109,8 @@ public class KeywordsApi {
      * Cancels an active Keyword on Ez Texting's short code in the country your account is set to send messages to.
      *
      * @param keyword keyword
-     * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
-     * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
-     * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
-     * @throws ResourceNotFoundException    in case HTTP response code is 404 - NOT FOUND, the resource requested does not exist.
-     * @throws InternalServerErrorException in case HTTP response code is 500 - Internal Server Error.
-     * @throws EzTextingApiException        in case HTTP response code is something different from codes listed above.
-     * @throws EzTextingClientException     in case error has occurred in client.
+     * @throws EzTextingApiException    in case error has occurred on server side, check provided error description.
+     * @throws EzTextingClientException in case error has occurred in client.
      */
     public void cancel(String keyword) {
         Validate.notBlank(keyword, "keyword cannot be blank");

@@ -1,6 +1,9 @@
 package com.eztexting.api.client.api.media;
 
-import com.eztexting.api.client.*;
+import com.eztexting.api.client.ClientUtils;
+import com.eztexting.api.client.EzTextingApiException;
+import com.eztexting.api.client.EzTextingClientException;
+import com.eztexting.api.client.RestApiClient;
 import com.eztexting.api.client.api.common.model.CommonGetRequest;
 import com.eztexting.api.client.api.media.model.MediaFile;
 import org.apache.commons.lang3.StringUtils;
@@ -31,13 +34,8 @@ public class MediaLibraryApi {
      *
      * @param url url to download file
      * @return created media file object
-     * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
-     * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
-     * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
-     * @throws ResourceNotFoundException    in case HTTP response code is 404 - NOT FOUND, the resource requested does not exist.
-     * @throws InternalServerErrorException in case HTTP response code is 500 - Internal Server Error.
-     * @throws EzTextingApiException        in case HTTP response code is something different from codes listed above.
-     * @throws EzTextingClientException     in case error has occurred in client.
+     * @throws EzTextingApiException    in case error has occurred on server side, check provided error description.
+     * @throws EzTextingClientException in case error has occurred in client.
      */
     public MediaFile create(String url) {
         List<NameValuePair> params = ClientUtils.asParams("Source", url);
@@ -49,13 +47,8 @@ public class MediaLibraryApi {
      *
      * @param id file's id
      * @return single media file
-     * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
-     * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
-     * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
-     * @throws ResourceNotFoundException    in case HTTP response code is 404 - NOT FOUND, the resource requested does not exist.
-     * @throws InternalServerErrorException in case HTTP response code is 500 - Internal Server Error.
-     * @throws EzTextingApiException        in case HTTP response code is something different from codes listed above.
-     * @throws EzTextingClientException     in case error has occurred in client.
+     * @throws EzTextingApiException    in case error has occurred on server side, check provided error description.
+     * @throws EzTextingClientException in case error has occurred in client.
      */
     public MediaFile get(Long id) {
         Validate.notNull(id, "id cannot be null");
@@ -68,13 +61,8 @@ public class MediaLibraryApi {
      *
      * @param request request object with sorting and pagination options
      * @return multiple media files
-     * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
-     * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
-     * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
-     * @throws ResourceNotFoundException    in case HTTP response code is 404 - NOT FOUND, the resource requested does not exist.
-     * @throws InternalServerErrorException in case HTTP response code is 500 - Internal Server Error.
-     * @throws EzTextingApiException        in case HTTP response code is something different from codes listed above.
-     * @throws EzTextingClientException     in case error has occurred in client.
+     * @throws EzTextingApiException    in case error has occurred on server side, check provided error description.
+     * @throws EzTextingClientException in case error has occurred in client.
      */
     public List<MediaFile> get(CommonGetRequest request) {
         return client.get(FILES_PATH, MediaFile.class, request).getEntries();
@@ -84,13 +72,8 @@ public class MediaLibraryApi {
      * Delete file in your Ez Texting media library
      *
      * @param id file's id
-     * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
-     * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
-     * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
-     * @throws ResourceNotFoundException    in case HTTP response code is 404 - NOT FOUND, the resource requested does not exist.
-     * @throws InternalServerErrorException in case HTTP response code is 500 - Internal Server Error.
-     * @throws EzTextingApiException        in case HTTP response code is something different from codes listed above.
-     * @throws EzTextingClientException     in case error has occurred in client.
+     * @throws EzTextingApiException    in case error has occurred on server side, check provided error description.
+     * @throws EzTextingClientException in case error has occurred in client.
      */
     public void delete(Long id) {
         Validate.notNull(id, "id cannot be null");

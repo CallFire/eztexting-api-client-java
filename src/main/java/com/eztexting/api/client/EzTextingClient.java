@@ -29,19 +29,10 @@ import static com.eztexting.api.client.ClientConstants.CLIENT_CONFIG_FILE;
  * the execution of a resource that was not due to user input, a 500 response
  * will be returned with a corresponding JSON error body. In that body will contain a message
  * detailing what went wrong.
- * API client methods throw 2 types of exceptions: API and client itself. API exceptions are mapped to
- * HTTP response codes:
- * <ul>
- * <li>{@link BadRequestException} - 400 - Bad request, the request was formatted improperly.</li>
- * <li>{@link UnauthorizedException} - 401 - Unauthorized, API Key missing or invalid.</li>
- * <li>{@link AccessForbiddenException} - 403 - Forbidden, insufficient permissions.</li>
- * <li>{@link ResourceNotFoundException} - 404 - NOT FOUND, the resource requested does not exist.</li>
- * <li>{@link InternalServerErrorException} - 500 - Internal Server Error.</li>
- * <li>{@link EzTextingApiException} - other error codes mapped to base exception.</li>
- * </ul>
- * Client exceptions:
+ * API client methods throw 2 types of exceptions: API and client itself. API exception contains HTTP response code.
  * <ul>
  * <li>{@link EzTextingClientException} - if error occurred inside client</li>
+ * <li>{@link EzTextingApiException} - if server returns any code higher than 400</li>
  * </ul>
  *
  * @author Vladimir Mikhailov (email: vmikhailov@callfire.com)
@@ -69,13 +60,24 @@ public class EzTextingClient {
     private ToolboxApi toolboxApi;
 
     /**
-     * Constructs callfire client
+     * Constructs EzTexting client for EzTexting brand by default
      *
      * @param username api login
      * @param password api password
      */
     public EzTextingClient(String username, String password) {
-        restApiClient = new RestApiClient(new RequestParamAuth(username, password));
+        restApiClient = new RestApiClient(Brand.EZ, new RequestParamAuth(username, password));
+    }
+
+    /**
+     * Constructs EzTexting client for specific brand
+     *
+     * @param brand    brand
+     * @param username api login
+     * @param password api password
+     */
+    public EzTextingClient(Brand brand, String username, String password) {
+        restApiClient = new RestApiClient(brand, new RequestParamAuth(username, password));
     }
 
     /**

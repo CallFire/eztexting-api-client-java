@@ -11,7 +11,7 @@ import java.util.List;
  */
 public class UnauthorizedException extends EzTextingApiException {
     public UnauthorizedException(List<String> errors) {
-        super(errors);
+        super(404, errors);
     }
 
     @Override
