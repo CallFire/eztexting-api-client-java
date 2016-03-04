@@ -1,6 +1,9 @@
 package com.eztexting.api.client.api.inbox;
 
-import com.eztexting.api.client.*;
+import com.eztexting.api.client.ClientUtils;
+import com.eztexting.api.client.EzTextingApiException;
+import com.eztexting.api.client.EzTextingClientException;
+import com.eztexting.api.client.RestApiClient;
 import com.eztexting.api.client.api.inbox.model.Folder;
 import com.eztexting.api.client.api.inbox.model.GetMessagesRequest;
 import com.eztexting.api.client.api.inbox.model.InboxMessage;
@@ -35,13 +38,8 @@ public class InboxApi {
      *
      * @param id id of message
      * @return incoming message
-     * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
-     * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
-     * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
-     * @throws ResourceNotFoundException    in case HTTP response code is 404 - NOT FOUND, the resource requested does not exist.
-     * @throws InternalServerErrorException in case HTTP response code is 500 - Internal Server Error.
-     * @throws EzTextingApiException        in case HTTP response code is something different from codes listed above.
-     * @throws EzTextingClientException     in case error has occurred in client.
+     * @throws EzTextingApiException    in case error has occurred on server side, check provided error description.
+     * @throws EzTextingClientException in case error has occurred in client.
      */
     public InboxMessage getMessage(Long id) {
         Validate.notNull(id, "id cannot be null");
@@ -54,13 +52,8 @@ public class InboxApi {
      *
      * @param request request with filtering fields
      * @return list with messages
-     * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
-     * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
-     * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
-     * @throws ResourceNotFoundException    in case HTTP response code is 404 - NOT FOUND, the resource requested does not exist.
-     * @throws InternalServerErrorException in case HTTP response code is 500 - Internal Server Error.
-     * @throws EzTextingApiException        in case HTTP response code is something different from codes listed above.
-     * @throws EzTextingClientException     in case error has occurred in client.
+     * @throws EzTextingApiException    in case error has occurred on server side, check provided error description.
+     * @throws EzTextingClientException in case error has occurred in client.
      */
     public List<InboxMessage> getMessages(GetMessagesRequest request) {
         return client.get(MESSAGES_PATH, InboxMessage.class, request).getEntries();
@@ -71,13 +64,8 @@ public class InboxApi {
      *
      * @param id       message id
      * @param folderId folder id
-     * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
-     * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
-     * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
-     * @throws ResourceNotFoundException    in case HTTP response code is 404 - NOT FOUND, the resource requested does not exist.
-     * @throws InternalServerErrorException in case HTTP response code is 500 - Internal Server Error.
-     * @throws EzTextingApiException        in case HTTP response code is something different from codes listed above.
-     * @throws EzTextingClientException     in case error has occurred in client.
+     * @throws EzTextingApiException    in case error has occurred on server side, check provided error description.
+     * @throws EzTextingClientException in case error has occurred in client.
      */
     public void moveMessage(Long id, Long folderId) {
         Validate.notNull(id, "id cannot be null");
@@ -91,13 +79,8 @@ public class InboxApi {
      *
      * @param ids      list with message ids
      * @param folderId folder id
-     * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
-     * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
-     * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
-     * @throws ResourceNotFoundException    in case HTTP response code is 404 - NOT FOUND, the resource requested does not exist.
-     * @throws InternalServerErrorException in case HTTP response code is 500 - Internal Server Error.
-     * @throws EzTextingApiException        in case HTTP response code is something different from codes listed above.
-     * @throws EzTextingClientException     in case error has occurred in client.
+     * @throws EzTextingApiException    in case error has occurred on server side, check provided error description.
+     * @throws EzTextingClientException in case error has occurred in client.
      */
     public void moveMessages(List<Long> ids, Long folderId) {
         Validate.notNull(folderId, "folderId cannot be null");
@@ -109,13 +92,8 @@ public class InboxApi {
      * Delete an incoming text message in your Ez Texting Inbox
      *
      * @param id message's id
-     * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
-     * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
-     * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
-     * @throws ResourceNotFoundException    in case HTTP response code is 404 - NOT FOUND, the resource requested does not exist.
-     * @throws InternalServerErrorException in case HTTP response code is 500 - Internal Server Error.
-     * @throws EzTextingApiException        in case HTTP response code is something different from codes listed above.
-     * @throws EzTextingClientException     in case error has occurred in client.
+     * @throws EzTextingApiException    in case error has occurred on server side, check provided error description.
+     * @throws EzTextingClientException in case error has occurred in client.
      */
     public void deleteMessage(Long id) {
         Validate.notNull(id, "id cannot be null");
@@ -127,13 +105,8 @@ public class InboxApi {
      *
      * @param name name of the folder to create
      * @return id of created folder
-     * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
-     * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
-     * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
-     * @throws ResourceNotFoundException    in case HTTP response code is 404 - NOT FOUND, the resource requested does not exist.
-     * @throws InternalServerErrorException in case HTTP response code is 500 - Internal Server Error.
-     * @throws EzTextingApiException        in case HTTP response code is something different from codes listed above.
-     * @throws EzTextingClientException     in case error has occurred in client.
+     * @throws EzTextingApiException    in case error has occurred on server side, check provided error description.
+     * @throws EzTextingClientException in case error has occurred in client.
      */
     public Folder createFolder(String name) {
         Validate.notBlank(name, "name cannot be blank");
@@ -147,13 +120,8 @@ public class InboxApi {
      * Update the name of a Folder in your Ez Texting Inbox
      *
      * @param folder folder to update
-     * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
-     * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
-     * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
-     * @throws ResourceNotFoundException    in case HTTP response code is 404 - NOT FOUND, the resource requested does not exist.
-     * @throws InternalServerErrorException in case HTTP response code is 500 - Internal Server Error.
-     * @throws EzTextingApiException        in case HTTP response code is something different from codes listed above.
-     * @throws EzTextingClientException     in case error has occurred in client.
+     * @throws EzTextingApiException    in case error has occurred on server side, check provided error description.
+     * @throws EzTextingClientException in case error has occurred in client.
      */
     public void updateFolder(Folder folder) {
         Validate.notNull(folder.getId(), "id cannot be null");
@@ -166,13 +134,8 @@ public class InboxApi {
      *
      * @param id folder's id
      * @return folder
-     * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
-     * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
-     * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
-     * @throws ResourceNotFoundException    in case HTTP response code is 404 - NOT FOUND, the resource requested does not exist.
-     * @throws InternalServerErrorException in case HTTP response code is 500 - Internal Server Error.
-     * @throws EzTextingApiException        in case HTTP response code is something different from codes listed above.
-     * @throws EzTextingClientException     in case error has occurred in client.
+     * @throws EzTextingApiException    in case error has occurred on server side, check provided error description.
+     * @throws EzTextingClientException in case error has occurred in client.
      */
     public Folder getFolder(Long id) {
         Validate.notNull(id, "id cannot be null");
@@ -184,13 +147,8 @@ public class InboxApi {
      * Get all Folders in your Ez Texting Inbox
      *
      * @return list with folders
-     * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
-     * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
-     * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
-     * @throws ResourceNotFoundException    in case HTTP response code is 404 - NOT FOUND, the resource requested does not exist.
-     * @throws InternalServerErrorException in case HTTP response code is 500 - Internal Server Error.
-     * @throws EzTextingApiException        in case HTTP response code is something different from codes listed above.
-     * @throws EzTextingClientException     in case error has occurred in client.
+     * @throws EzTextingApiException    in case error has occurred on server side, check provided error description.
+     * @throws EzTextingClientException in case error has occurred in client.
      */
     public List<Folder> getFolders() {
         return client.get(FOLDERS_PATH, Folder.class).getEntries();
@@ -200,13 +158,8 @@ public class InboxApi {
      * Delete a Folder in your Ez Texting Inbox
      *
      * @param id folder's id
-     * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
-     * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
-     * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
-     * @throws ResourceNotFoundException    in case HTTP response code is 404 - NOT FOUND, the resource requested does not exist.
-     * @throws InternalServerErrorException in case HTTP response code is 500 - Internal Server Error.
-     * @throws EzTextingApiException        in case HTTP response code is something different from codes listed above.
-     * @throws EzTextingClientException     in case error has occurred in client.
+     * @throws EzTextingApiException    in case error has occurred on server side, check provided error description.
+     * @throws EzTextingClientException in case error has occurred in client.
      */
     public void deleteFolder(Long id) {
         Validate.notNull(id, "id cannot be null");

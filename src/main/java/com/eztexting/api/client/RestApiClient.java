@@ -24,7 +24,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
 
-import static com.eztexting.api.client.ClientConstants.BASE_PATH_PROPERTY;
 import static com.eztexting.api.client.ClientConstants.USER_AGENT_PROPERTY;
 import static com.eztexting.api.client.ModelType.of;
 
@@ -37,6 +36,7 @@ public class RestApiClient {
     private static final Logger LOGGER = new Logger(RestApiClient.class);
     private static final EzTextingResponse EMPTY_RESPONSE = new EzTextingResponse();
 
+    private Brand brand;
     private HttpClient httpClient;
     private JsonConverter jsonConverter;
     private Authentication authentication;
@@ -45,9 +45,11 @@ public class RestApiClient {
     /**
      * REST API client constructor. Currently available authentication methods: {@link RequestParamAuth}
      *
+     * @param brand          EzTexting brand
      * @param authentication API authentication method
      */
-    public RestApiClient(Authentication authentication) {
+    public RestApiClient(Brand brand, Authentication authentication) {
+        this.brand = brand;
         this.authentication = authentication;
         jsonConverter = new JsonConverter();
         httpClient = HttpClientBuilder.create()
@@ -89,13 +91,8 @@ public class RestApiClient {
      * @param type return entity type
      * @param <T>  return entity type
      * @return pojo mapped from json
-     * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
-     * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
-     * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
-     * @throws ResourceNotFoundException    in case HTTP response code is 404 - NOT FOUND, the resource requested does not exist.
-     * @throws InternalServerErrorException in case HTTP response code is 500 - Internal Server Error.
-     * @throws EzTextingApiException        in case HTTP response code is something different from codes listed above.
-     * @throws EzTextingClientException     in case error has occurred in client.
+     * @throws EzTextingApiException    in case error has occurred on server side, check provided error description.
+     * @throws EzTextingClientException in case error has occurred in client.
      */
     public <T> EzTextingResponse<T> get(String path, Class<T> type) {
         return get(path, type, Collections.<NameValuePair>emptyList());
@@ -109,13 +106,8 @@ public class RestApiClient {
      * @param params additional request parameters
      * @param <T>    return entity type
      * @return pojo mapped from json
-     * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
-     * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
-     * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
-     * @throws ResourceNotFoundException    in case HTTP response code is 404 - NOT FOUND, the resource requested does not exist.
-     * @throws InternalServerErrorException in case HTTP response code is 500 - Internal Server Error.
-     * @throws EzTextingApiException        in case HTTP response code is something different from codes listed above.
-     * @throws EzTextingClientException     in case error has occurred in client.
+     * @throws EzTextingApiException    in case error has occurred on server side, check provided error description.
+     * @throws EzTextingClientException in case error has occurred in client.
      */
     public <T> EzTextingResponse<T> get(String path, Class<T> type, List<NameValuePair> params) {
         return get(path, type, null, params);
@@ -129,13 +121,8 @@ public class RestApiClient {
      * @param request get request object
      * @param <T>     return entity type
      * @return pojo mapped from json
-     * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
-     * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
-     * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
-     * @throws ResourceNotFoundException    in case HTTP response code is 404 - NOT FOUND, the resource requested does not exist.
-     * @throws InternalServerErrorException in case HTTP response code is 500 - Internal Server Error.
-     * @throws EzTextingApiException        in case HTTP response code is something different from codes listed above.
-     * @throws EzTextingClientException     in case error has occurred in client.
+     * @throws EzTextingApiException    in case error has occurred on server side, check provided error description.
+     * @throws EzTextingClientException in case error has occurred in client.
      */
     public <T> EzTextingResponse<T> get(String path, Class<T> type, EzTextingModel request) {
         return get(path, type, request, Collections.<NameValuePair>emptyList());
@@ -150,13 +137,8 @@ public class RestApiClient {
      * @param params  additional name-value parameters
      * @param <T>     return entity type
      * @return pojo mapped from json
-     * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
-     * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
-     * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
-     * @throws ResourceNotFoundException    in case HTTP response code is 404 - NOT FOUND, the resource requested does not exist.
-     * @throws InternalServerErrorException in case HTTP response code is 500 - Internal Server Error.
-     * @throws EzTextingApiException        in case HTTP response code is something different from codes listed above.
-     * @throws EzTextingClientException     in case error has occurred in client.
+     * @throws EzTextingApiException    in case error has occurred on server side, check provided error description.
+     * @throws EzTextingClientException in case error has occurred in client.
      */
     public <T> EzTextingResponse<T> get(String path, Class<T> type, EzTextingModel request,
         List<NameValuePair> params) {
@@ -178,13 +160,8 @@ public class RestApiClient {
      * @param params request parameters
      * @param <T>    response entity type
      * @return pojo mapped from json
-     * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
-     * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
-     * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
-     * @throws ResourceNotFoundException    in case HTTP response code is 404 - NOT FOUND, the resource requested does not exist.
-     * @throws InternalServerErrorException in case HTTP response code is 500 - Internal Server Error.
-     * @throws EzTextingApiException        in case HTTP response code is something different from codes listed above.
-     * @throws EzTextingClientException     in case error has occurred in client.
+     * @throws EzTextingApiException    in case error has occurred on server side, check provided error description.
+     * @throws EzTextingClientException in case error has occurred in client.
      */
     public <T> EzTextingResponse<T> postFile(String path, Class<T> type, Map<String, ?> params) {
         try {
@@ -211,13 +188,8 @@ public class RestApiClient {
      * @param type return entity type
      * @param <T>  return entity type
      * @return pojo mapped from json
-     * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
-     * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
-     * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
-     * @throws ResourceNotFoundException    in case HTTP response code is 404 - NOT FOUND, the resource requested does not exist.
-     * @throws InternalServerErrorException in case HTTP response code is 500 - Internal Server Error.
-     * @throws EzTextingApiException        in case HTTP response code is something different from codes listed above.
-     * @throws EzTextingClientException     in case error has occurred in client.
+     * @throws EzTextingApiException    in case error has occurred on server side, check provided error description.
+     * @throws EzTextingClientException in case error has occurred in client.
      */
     public <T> EzTextingResponse<T> post(String path, Class<T> type) {
         return post(path, type, null, Collections.<NameValuePair>emptyList());
@@ -231,13 +203,8 @@ public class RestApiClient {
      * @param payload request payload
      * @param <T>     response entity type
      * @return pojo mapped from json
-     * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
-     * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
-     * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
-     * @throws ResourceNotFoundException    in case HTTP response code is 404 - NOT FOUND, the resource requested does not exist.
-     * @throws InternalServerErrorException in case HTTP response code is 500 - Internal Server Error.
-     * @throws EzTextingApiException        in case HTTP response code is something different from codes listed above.
-     * @throws EzTextingClientException     in case error has occurred in client.
+     * @throws EzTextingApiException    in case error has occurred on server side, check provided error description.
+     * @throws EzTextingClientException in case error has occurred in client.
      */
     public <T> EzTextingResponse<T> post(String path, Class<T> type, EzTextingModel payload) {
         return post(path, type, payload, Collections.<NameValuePair>emptyList());
@@ -251,13 +218,8 @@ public class RestApiClient {
      * @param params additional request parameters
      * @param <T>    response entity type
      * @return pojo mapped from json
-     * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
-     * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
-     * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
-     * @throws ResourceNotFoundException    in case HTTP response code is 404 - NOT FOUND, the resource requested does not exist.
-     * @throws InternalServerErrorException in case HTTP response code is 500 - Internal Server Error.
-     * @throws EzTextingApiException        in case HTTP response code is something different from codes listed above.
-     * @throws EzTextingClientException     in case error has occurred in client.
+     * @throws EzTextingApiException    in case error has occurred on server side, check provided error description.
+     * @throws EzTextingClientException in case error has occurred in client.
      */
     public <T> EzTextingResponse<T> post(String path, Class<T> type, List<NameValuePair> params) {
         return post(path, type, null, params);
@@ -272,13 +234,8 @@ public class RestApiClient {
      * @param params  additional request parameters
      * @param <T>     response entity type
      * @return pojo mapped from json
-     * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
-     * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
-     * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
-     * @throws ResourceNotFoundException    in case HTTP response code is 404 - NOT FOUND, the resource requested does not exist.
-     * @throws InternalServerErrorException in case HTTP response code is 500 - Internal Server Error.
-     * @throws EzTextingApiException        in case HTTP response code is something different from codes listed above.
-     * @throws EzTextingClientException     in case error has occurred in client.
+     * @throws EzTextingApiException    in case error has occurred on server side, check provided error description.
+     * @throws EzTextingClientException in case error has occurred in client.
      */
     public <T> EzTextingResponse<T> post(String path, Class<T> type, EzTextingModel payload,
         List<NameValuePair> params) {
@@ -303,13 +260,8 @@ public class RestApiClient {
      * @param payload request payload
      * @param <T>     response entity type
      * @return pojo mapped from json
-     * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
-     * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
-     * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
-     * @throws ResourceNotFoundException    in case HTTP response code is 404 - NOT FOUND, the resource requested does not exist.
-     * @throws InternalServerErrorException in case HTTP response code is 500 - Internal Server Error.
-     * @throws EzTextingApiException        in case HTTP response code is something different from codes listed above.
-     * @throws EzTextingClientException     in case error has occurred in client.
+     * @throws EzTextingApiException    in case error has occurred on server side, check provided error description.
+     * @throws EzTextingClientException in case error has occurred in client.
      */
     public <T> EzTextingResponse<T> put(String path, Class<T> type, EzTextingModel payload) {
         try {
@@ -329,13 +281,8 @@ public class RestApiClient {
      * Performs DELETE request to specified path with query parameters
      *
      * @param path request path
-     * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
-     * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
-     * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
-     * @throws ResourceNotFoundException    in case HTTP response code is 404 - NOT FOUND, the resource requested does not exist.
-     * @throws InternalServerErrorException in case HTTP response code is 500 - Internal Server Error.
-     * @throws EzTextingApiException        in case HTTP response code is something different from codes listed above.
-     * @throws EzTextingClientException     in case error has occurred in client.
+     * @throws EzTextingApiException    in case error has occurred on server side, check provided error description.
+     * @throws EzTextingClientException in case error has occurred in client.
      */
     public void delete(String path) {
         try {
@@ -355,7 +302,7 @@ public class RestApiClient {
      * @return string representation of base URL path
      */
     public String getApiBasePath() {
-        return EzTextingClient.getClientConfig().getProperty(BASE_PATH_PROPERTY);
+        return EzTextingClient.getClientConfig().getProperty(brand.getBasePathProperty());
     }
 
     /**
@@ -404,6 +351,11 @@ public class RestApiClient {
             if (StringUtils.isNotBlank(stringResponse)) {
                 errors = jsonConverter.deserialize(stringResponse, of(Object.class)).getErrors();
             }
+            throw new EzTextingApiException(statusCode, errors);
+
+            /*
+            TODO vmikhailov currently EZ API returns incorrect codes for almost all operations, so we just throw generic
+            EzTextingApiException with http response code and user has to handle that appropriately
             switch (statusCode) {
                 case 400:
                     throw new BadRequestException(errors);
@@ -418,6 +370,7 @@ public class RestApiClient {
                 default:
                     throw new EzTextingApiException(errors);
             }
+            */
         }
     }
 

@@ -12,8 +12,10 @@ import java.util.List;
  */
 public class EzTextingApiException extends RuntimeException {
     protected List<String> errors;
+    protected int httpStatusCode;
 
-    public EzTextingApiException(List<String> errors) {
+    public EzTextingApiException(int httpStatusCode, List<String> errors) {
+        this.httpStatusCode = httpStatusCode;
         this.errors = errors;
     }
 
@@ -35,6 +37,14 @@ public class EzTextingApiException extends RuntimeException {
         this.errors = errors;
     }
 
+    public int getHttpStatusCode() {
+        return httpStatusCode;
+    }
+
+    public void setHttpStatusCode(int httpStatusCode) {
+        this.httpStatusCode = httpStatusCode;
+    }
+
     @Override
     public String getMessage() {
         return errors.toString();
@@ -44,6 +54,7 @@ public class EzTextingApiException extends RuntimeException {
     public String toString() {
         return new ToStringBuilder(this)
             .appendSuper(super.toString())
+            .append("httpStatusCode", httpStatusCode)
             .append("errors", errors)
             .toString();
     }

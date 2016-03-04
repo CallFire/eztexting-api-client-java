@@ -11,7 +11,7 @@ import java.util.List;
  */
 public class BadRequestException extends EzTextingApiException {
     public BadRequestException(List<String> errors) {
-        super(errors);
+        super(400, errors);
     }
 
     @Override

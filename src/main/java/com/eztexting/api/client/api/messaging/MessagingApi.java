@@ -1,6 +1,9 @@
 package com.eztexting.api.client.api.messaging;
 
-import com.eztexting.api.client.*;
+import com.eztexting.api.client.ClientUtils;
+import com.eztexting.api.client.EzTextingApiException;
+import com.eztexting.api.client.EzTextingClientException;
+import com.eztexting.api.client.RestApiClient;
 import com.eztexting.api.client.api.messaging.model.*;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
@@ -33,13 +36,8 @@ public class MessagingApi {
      * @param message message to send
      * @param <T>     message type
      * @return created message with additional info
-     * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
-     * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
-     * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
-     * @throws ResourceNotFoundException    in case HTTP response code is 404 - NOT FOUND, the resource requested does not exist.
-     * @throws InternalServerErrorException in case HTTP response code is 500 - Internal Server Error.
-     * @throws EzTextingApiException        in case HTTP response code is something different from codes listed above.
-     * @throws EzTextingClientException     in case error has occurred in client.
+     * @throws EzTextingApiException    in case error has occurred on server side, check provided error description.
+     * @throws EzTextingClientException in case error has occurred in client.
      */
     @SuppressWarnings("unchecked")
     public <T extends TextMessage> T send(T message) {
@@ -60,13 +58,8 @@ public class MessagingApi {
      *
      * @param message voice message request
      * @return response object
-     * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
-     * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
-     * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
-     * @throws ResourceNotFoundException    in case HTTP response code is 404 - NOT FOUND, the resource requested does not exist.
-     * @throws InternalServerErrorException in case HTTP response code is 500 - Internal Server Error.
-     * @throws EzTextingApiException        in case HTTP response code is something different from codes listed above.
-     * @throws EzTextingClientException     in case error has occurred in client.
+     * @throws EzTextingApiException    in case error has occurred on server side, check provided error description.
+     * @throws EzTextingClientException in case error has occurred in client.
      */
     public VoiceMessage send(VoiceMessage message) {
         return client.post(SEND_VOICE_PATH, VoiceMessage.class, message).getEntry();
@@ -77,13 +70,8 @@ public class MessagingApi {
      *
      * @param id message id
      * @return delivery report
-     * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
-     * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
-     * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
-     * @throws ResourceNotFoundException    in case HTTP response code is 404 - NOT FOUND, the resource requested does not exist.
-     * @throws InternalServerErrorException in case HTTP response code is 500 - Internal Server Error.
-     * @throws EzTextingApiException        in case HTTP response code is something different from codes listed above.
-     * @throws EzTextingClientException     in case error has occurred in client.
+     * @throws EzTextingApiException    in case error has occurred on server side, check provided error description.
+     * @throws EzTextingClientException in case error has occurred in client.
      */
     public DeliveryReport getReport(long id) {
         String path = StringUtils.replace(REPORT_PATH, PLACEHOLDER, String.valueOf(id));
@@ -96,13 +84,8 @@ public class MessagingApi {
      * @param id     message id
      * @param status delivery status to sort by
      * @return list of possible phone numbers which have given status
-     * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
-     * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
-     * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
-     * @throws ResourceNotFoundException    in case HTTP response code is 404 - NOT FOUND, the resource requested does not exist.
-     * @throws InternalServerErrorException in case HTTP response code is 500 - Internal Server Error.
-     * @throws EzTextingApiException        in case HTTP response code is something different from codes listed above.
-     * @throws EzTextingClientException     in case error has occurred in client.
+     * @throws EzTextingApiException    in case error has occurred on server side, check provided error description.
+     * @throws EzTextingClientException in case error has occurred in client.
      */
     public List<Long> getDetailedReport(long id, DeliveryStatus status) {
         String path = StringUtils.replace(DETAILED_REPORT_PATH, PLACEHOLDER, String.valueOf(id));

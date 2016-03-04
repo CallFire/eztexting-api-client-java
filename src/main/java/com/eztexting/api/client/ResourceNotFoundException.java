@@ -11,7 +11,7 @@ import java.util.List;
  */
 public class ResourceNotFoundException extends EzTextingApiException {
     public ResourceNotFoundException(List<String> errors) {
-        super(errors);
+        super(404, errors);
     }
 
     @Override

@@ -11,7 +11,7 @@ import java.util.List;
  */
 public class InternalServerErrorException extends EzTextingApiException {
     public InternalServerErrorException(List<String> errors) {
-        super(errors);
+        super(500, errors);
     }
 
     @Override
