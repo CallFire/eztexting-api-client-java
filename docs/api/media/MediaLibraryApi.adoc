@@ -7,6 +7,13 @@ Create a new media file that will be stored in your Ez Texting media library
     MediaFile media = client.mediaLibraryApi().create("http://your-storage.com/media.mp3");
     System.out.println(media);
 
+Upload file that will be stored in your Ez Texting media library
+[source,java]
+    EzTextingClient client = new EzTextingClient("api_login", "api_password");
+    File file = new File("path_to_file");
+    MediaFile media = client.mediaLibraryApi().create(file);
+    System.out.println(media);
+
 === Get one media file
 Get a single file stored in your Ez Texting media library.
 [source,java]

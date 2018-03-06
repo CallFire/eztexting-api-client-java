@@ -160,3 +160,39 @@ def buildNumber() {
     String buildNumber = System.properties[ 'BUILD_NUMBER' ] ?: "SNAPSHOT"
     "$buildNumber"
 }
+
+github {
+    owner = gitHubOwner()
+    repo = "eztexting-api-client-java"
+    token = gitHubToken()
+    tagName = version
+    targetCommitish = "master"
+    name = version
+    body = releaseDescription()
+    assets = [
+            "build/libs/eztexting-api-client-" + project.version + "-all.jar",
+            "build/libs/eztexting-api-client-" + project.version + "-javadoc.jar",
+            "build/libs/eztexting-api-client-" + project.version + "-sources.jar",
+            "build/libs/eztexting-api-client-" + project.version + ".jar"
+    ]
+}
+
+def gitHubOwner() {
+    String gitHubOwner = System.getProperty("gitHubOwner") ?: "empty"
+    "$gitHubOwner"
+}
+
+def gitHubToken() {
+    String gitHubToken = System.getProperty("gitHubToken") ?: "empty"
+    "$gitHubToken"
+}
+
+def releaseDescription() {
+    String releaseNotes = file("Changelog.txt").text
+    String firstVersionEntry = releaseNotes.find(~/Version.*/)
+    Integer start = releaseNotes.indexOf(firstVersionEntry) + firstVersionEntry.size()
+    releaseNotes = releaseNotes.substring(start, releaseNotes.size())
+    String secondVersionEntry = releaseNotes.find(~/Version.*/)
+    String currentReleaseChanges = releaseNotes.substring(0, (secondVersionEntry == null ? releaseNotes.size() - 1 : releaseNotes.indexOf(secondVersionEntry))).trim()
+    "$currentReleaseChanges"
+}

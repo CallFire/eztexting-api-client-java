@@ -9,8 +9,13 @@ import com.eztexting.api.client.api.media.model.MediaFile;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
 import org.apache.http.NameValuePair;
+import org.apache.http.entity.ContentType;
+import org.apache.http.entity.mime.content.FileBody;
 
+import java.io.File;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static com.eztexting.api.client.ClientConstants.PLACEHOLDER;
 
@@ -40,6 +45,18 @@ public class MediaLibraryApi {
     public MediaFile create(String url) {
         List<NameValuePair> params = ClientUtils.asParams("Source", url);
         return client.post(FILES_PATH, MediaFile.class, params).getEntry();
+    }
+
+    /**
+     * Create a new contact from file that will be stored in Ez Texting media library
+     *
+     * @param file file for upload
+     * @return created media file object
+     * @throws EzTextingApiException    in case error has occurred on server side, check provided error description.
+     * @throws EzTextingClientException in case error has occurred in client.
+     */
+    public MediaFile create(File file) {
+        return client.post(FILES_PATH, MediaFile.class, file).getEntry();
     }
 
     /**
