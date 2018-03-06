@@ -6,6 +6,8 @@ import static com.eztexting.api.client.ClientUtils.encode;
  * Implementation of EzTexting auth scheme
  */
 public class RequestParamAuth implements Authentication {
+    private String username;
+    private String password;
     private String authParams;
 
     /**
@@ -15,7 +17,19 @@ public class RequestParamAuth implements Authentication {
      * @param password api password
      */
     public RequestParamAuth(String username, String password) {
+        this.username = username;
+        this.password = password;
         authParams = "User" + "=" + encode(username) + "&" + "Password" + "=" + encode(password);
+    }
+
+    @Override
+    public String getUsername() {
+        return username;
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
     }
 
     @Override

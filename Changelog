@@ -1,5 +1,7 @@
 EzTexting API client Changelog
 =============================
+Version 1.1.1 - Mar 6 2018
+    - added ability to upload file from disk
 
 Version 1.1.0 - Mar 3 2016
     - added support for different brands: ClubTexting, GroupTexting, TellMyCell

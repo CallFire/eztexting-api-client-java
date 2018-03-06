@@ -12,10 +12,13 @@ import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.EntityBuilder;
+import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.RequestBuilder;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
+import org.apache.http.entity.mime.content.FileBody;
+import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
 
@@ -230,6 +233,38 @@ public class RestApiClient {
      *
      * @param path    request path
      * @param type    response entity type
+     * @param file file for upload
+     * @param <T>     response entity type
+     * @return pojo mapped from json
+     * @throws EzTextingApiException    in case error has occurred on server side, check provided error description.
+     * @throws EzTextingClientException in case error has occurred in client.
+     */
+    public <T> EzTextingResponse<T> post(String path, Class<T> type, File file) {
+        try {
+            StringBody username = new StringBody(authentication.getUsername(), ContentType.MULTIPART_FORM_DATA);
+            StringBody password = new StringBody(authentication.getPassword(), ContentType.MULTIPART_FORM_DATA);
+            FileBody fileBody = new FileBody(file, ContentType.DEFAULT_BINARY);
+
+            MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+            builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
+            builder.addPart("User", username);
+            builder.addPart("Password", password);
+            builder.addPart("Source", fileBody);
+
+            HttpPost post = new HttpPost(   getApiBasePath() + path);
+            post.setEntity(builder.build());
+
+            return doRequest(post, type);
+        } catch (IOException e) {
+            throw new EzTextingClientException(e);
+        }
+    }
+
+    /**
+     * Performs POST request with body to specified path
+     *
+     * @param path    request path
+     * @param type    response entity type
      * @param payload request payload
      * @param params  additional request parameters
      * @param <T>     response entity type
@@ -314,14 +349,21 @@ public class RestApiClient {
         return filters;
     }
 
-    @SuppressWarnings("unchecked")
-    private <T> EzTextingResponse<T> doRequest(RequestBuilder requestBuilder, Class<T> type)
-        throws IOException {
+    private <T> EzTextingResponse<T> doRequest(RequestBuilder requestBuilder, Class<T> type) throws IOException {
         for (RequestFilter filter : filters) {
             filter.filter(requestBuilder);
         }
         HttpResponse response = httpClient.execute(requestBuilder.build());
 
+        return prepareResponse(response, type);
+    }
+
+    private <T> EzTextingResponse<T> doRequest(HttpPost post, Class<T> type) throws IOException {
+        return prepareResponse(httpClient.execute(post), type);
+    }
+
+    @SuppressWarnings("unchecked")
+    private <T> EzTextingResponse<T> prepareResponse(HttpResponse response, Class<T> type) throws IOException {
         int statusCode = response.getStatusLine().getStatusCode();
         HttpEntity httpEntity = response.getEntity();
         if (httpEntity == null) {
